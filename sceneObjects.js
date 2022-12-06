@@ -1,0 +1,218 @@
+var mountain = {
+    x: 400,
+    y: 400,
+    width: 300,
+    height: 300
+
+}
+
+var treeLeafColorScheme = [
+    [27, 94, 32],
+    [46, 125, 50],
+    [56, 142, 60],
+    [130, 119, 23],
+    [51, 105, 30],
+    [85, 139, 47],
+    [104, 159, 56],
+    [76, 175, 80],
+    [67, 160, 71]
+]
+
+var treeLogColorScheme = [
+    [62, 39, 35],
+    [78, 52, 46],
+    [93, 64, 55],
+    [109, 76, 65]
+]
+
+var cloudColorScheme = [
+    [238, 238, 238],
+    [245, 245, 245],
+    [224, 224, 224],
+    [189, 189, 189],
+    [158, 158, 158],
+    [141, 110, 99],
+    [176, 190, 197],
+    [120, 144, 156],
+    [236, 239, 241]
+]
+
+var mountainColorScheme = [
+    [62, 39, 35],
+    [78, 52, 46],
+    [93, 64, 55],
+    [109, 76, 65],
+    [121, 85, 72],
+    [141, 110, 99],
+    [66, 66, 66],
+    [97, 97, 97],
+    [117, 117, 117]
+]
+
+var mountainSnowColorScheme = [
+    [238, 238, 238],
+    [245, 245, 245],
+    [224, 224, 224],
+    [189, 189, 189],
+    [158, 158, 158],
+    [141, 110, 99],
+    [176, 190, 197],
+    [120, 144, 156],
+    [236, 239, 241]
+]
+
+var canyonColorScheme = [
+    [38, 50, 56],
+    [33, 33, 33],
+    [62, 39, 35],
+    [55, 71, 79],
+    [66, 66, 66],
+    [78, 52, 46]
+]
+
+function createTree(x, y, logHeight, logWidth, leafHeight, leafWidth) {
+    var treeVar = {
+        x: x,
+        y: y,
+        logHeight: logHeight,
+        logWidth: logWidth,
+        leafHeight: leafHeight,
+        leafWidth: leafWidth,
+        logColor: random(treeLogColorScheme),
+        leafColor1: random(treeLeafColorScheme),
+        leafColor2: random(treeLeafColorScheme),
+        leafColor3: random(treeLeafColorScheme)
+    }
+    return treeVar
+}
+
+function drawTree(treeVar) {
+    // Draw the Log
+    noStroke()
+    fill(treeVar.logColor)
+    rect(treeVar.x - treeVar.logWidth / 2, treeVar.y, treeVar.logWidth, -treeVar.logHeight)
+    triangle(treeVar.x - treeVar.logWidth * 3 / 4, treeVar.y, treeVar.x + treeVar.logWidth * 3 / 4, treeVar.y, treeVar.x, treeVar.y - treeVar.leafHeight)
+    triangle(treeVar.x - treeVar.logWidth, treeVar.y, treeVar.x + treeVar.logWidth, treeVar.y, treeVar.x, treeVar.y - treeVar.leafHeight / 3)
+
+    // Draw the Leaves
+    fill(treeVar.leafColor1)
+    triangle(treeVar.x - treeVar.leafWidth / 2, treeVar.y - treeVar.logHeight, treeVar.x + treeVar.leafWidth / 2, treeVar.y - treeVar.logHeight, treeVar.x, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 3 / 5)
+
+    fill(treeVar.leafColor2)
+    triangle(treeVar.x - treeVar.leafWidth / 3, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 1.5 / 5, treeVar.x + treeVar.leafWidth / 3, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 1.5 / 5, treeVar.x, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 4 / 5)
+
+    fill(treeVar.leafColor3)
+    triangle(treeVar.x - treeVar.leafWidth / 5, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 3 / 5, treeVar.x + treeVar.leafWidth / 5, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 3 / 5, treeVar.x, treeVar.y - treeVar.logHeight - treeVar.leafHeight)
+
+    if (debug_anchor) {
+        fill(255, 0, 0)
+        ellipse(treeVar.x, treeVar.y, 5, 5)
+    }
+
+}
+
+function createCloud(x, y, maxX) {
+    var cloudVar = {
+        x: x,
+        y: y,
+        maxX: maxX,
+        xSpeed: random(0.5, 1.5),
+        cloudColor: random(cloudColorScheme),
+        width: 55
+    }
+    return cloudVar
+}
+
+function drawClouds(cloudVar) {
+    moveCloud(cloudVar)
+
+    fill(cloudVar.cloudColor)
+    noStroke()
+    ellipse(cloudVar.x, cloudVar.y, 70, 70) // Center
+
+    ellipse(cloudVar.x - 30, cloudVar.y, 50, 50)
+    ellipse(cloudVar.x, cloudVar.y - 20, 50, 50)
+    ellipse(cloudVar.x + 30, cloudVar.y, 50, 50)
+    ellipse(cloudVar.x - 15, cloudVar.y + 25, 35, 30)
+    ellipse(cloudVar.x + 15, cloudVar.y + 25, 35, 30)
+
+    if (debug_anchor) {
+        fill(255, 0, 0)
+        ellipse(cloudVar.x, cloudVar.y, 5, 5)
+    }
+}
+
+function moveCloud(cloudVar) {
+    cloudVar.x += cloudVar.xSpeed
+
+    // Recreate the cloud if cloud is off the screen
+    if (cloudVar.x - cloudVar.width >= cloudVar.maxX) {
+        cloudVar.x = 0 - cloudVar.width
+        cloudVar.xSpeed = random(0.5, 1.5)
+        cloudVar.cloudColor = random(cloudColorScheme)
+    }
+}
+
+function createMountain(x, y, width, height) {
+    var mountainVar = {
+        x: x,
+        y: y,
+        width: width,
+        height: height,
+        mountainColor1: random(mountainColorScheme),
+        mountainColor2: random(mountainColorScheme),
+        mountainColor3: random(mountainColorScheme),
+        snowColor: random(mountainSnowColorScheme)
+    }
+    return mountainVar
+}
+
+function drawMountain(mountainVar) {
+    fill(mountainVar.mountainColor1)
+    noStroke()
+    triangle(mountainVar.x - mountainVar.width * 1.5 / 5, mountainVar.y, mountainVar.x + mountainVar.width * 1.5 / 5, mountainVar.y, mountainVar.x, mountainVar.y - mountainVar.height)
+    fill(mountainVar.snowColor)
+    triangle(mountainVar.x - mountainVar.width * 0.24, mountainVar.y - mountainVar.height * 1 / 5, mountainVar.x + mountainVar.width * 0.06, mountainVar.y - mountainVar.height * 4 / 5, mountainVar.x, mountainVar.y - mountainVar.height)
+
+    fill(mountainVar.mountainColor2)
+    noStroke()
+    triangle(mountainVar.x - mountainVar.width * 2.5 / 5, mountainVar.y, mountainVar.x + mountainVar.width * 0.5 / 5, mountainVar.y, mountainVar.x - mountainVar.width * 1 / 5, mountainVar.y - mountainVar.height * 0.8)
+
+    fill(mountainVar.mountainColor3)
+    noStroke()
+    triangle(mountainVar.x - mountainVar.width * 0.5 / 5, mountainVar.y, mountainVar.x + mountainVar.width * 2.5 / 5, mountainVar.y, mountainVar.x + mountainVar.width * 1 / 5, mountainVar.y - mountainVar.height * 0.8)
+
+    if (debug_anchor) {
+        fill(255, 0, 0)
+        ellipse(mountainVar.x, mountainVar.y, 5, 5)
+    }
+}
+
+function createCanyon(x, y, width) {
+    var canyonVar = {
+        x: x,
+        y: y,
+        width: width,
+        height: height - floorY,
+        canyonColor: random(canyonColorScheme)
+    }
+    return canyonVar
+}
+
+function drawCanyon(canyonVar) {
+    canyonCheck(canyonVar)
+    fill(canyonVar.canyonColor)
+    noStroke()
+    rect(canyonVar.x - canyonVar.width / 2, canyonVar.y, canyonVar.width, canyonVar.height)
+    if (debug_anchor) {
+        fill(255, 0, 0)
+        ellipse(canyonVar.x, canyonVar.y, 5, 5)
+    }
+}
+
+function canyonCheck(canyonVar) {
+    // Check if Player is in the canyon
+    if(player.x + player.width/2 <= canyonVar.x + canyonVar.width/2 && player.x - player.width/2 >= canyonVar.x - canyonVar.width/2 && player.y == floorY) {
+        player.plummeting = true
+    }
+}
