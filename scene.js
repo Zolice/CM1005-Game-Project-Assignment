@@ -38,7 +38,14 @@ function sceneSetup() {
 
     // Calculate how many scene sections
     // sceneSectionCount = random(3, 5)
-    sceneSectionCount = 10
+    sceneSectionCount = 50
+
+    // Reset arrays
+    trees = []
+    clouds = []
+    mountains = []
+    canyons = []
+    collectables = []
 
     // Create Clouds
     // Clouds stay on screen all the time, not affected by sections
@@ -101,6 +108,7 @@ function sceneDraw() {
     collectables.forEach(collectable => drawCollectable(collectable))
 
     pop()
+
     // Clouds
     // Draw Clouds
     clouds.forEach(cloud => drawClouds(cloud))

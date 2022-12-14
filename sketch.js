@@ -5,17 +5,33 @@ var translation = 0;
 
 function setup() { // This function is called only once
 	createCanvas(1200, 600)
+	translation = 0
 
 	// debuggingSketch()
 	
 	characterSetup()
 	sceneSetup()
+	uiSetup()
+	console.log("Setup complete")
 }
 
 function draw() // This function is ran per frame
 {
 	sceneDraw()
 	characterDraw()
+	uiDraw()
+}
+
+function keyPressed() { // Reload the page when R is pressed
+	if(keyCode == 82) {
+		setup()
+	}
+
+	characterKeyPressed(keyCode)
+}
+
+function keyReleased() {
+	characterKeyReleased(keyCode)
 }
 
 function debuggingSketch() {

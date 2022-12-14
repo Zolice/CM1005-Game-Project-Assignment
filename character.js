@@ -32,13 +32,13 @@ function createCharacter(x, y, width, direction, falling, jumping, alive) {
 		jumping: jumping,
 		alive: alive,
 		xSpeed: 0,
-		ySpeed: 0
+		ySpeed: 0, 
+		score: 0
 	}
 	return characterVar
 }
 
-function keyPressed() {
-	console.log(keyCode)
+function characterKeyPressed(keyCode) {
 	if (keyCode == 37) {
 		player.direction = "left"
 		player.xSpeed = -10
@@ -51,10 +51,9 @@ function keyPressed() {
 		player.jumping = true
 		player.ySpeed = -15
 	}
-
 }
 
-function keyReleased() {
+function characterKeyReleased() {
 	if (keyCode == 37) {
 		if (keyIsDown(39)) {
 			player.xSpeed = 10
@@ -116,7 +115,6 @@ function moveCharacter(characterVar) {
 				characterVar.displayY = floorY
 			}
 		}
-		console.log(characterVar.jumping)
 
 		// Canyon
 		if (characterVar.falling) {
