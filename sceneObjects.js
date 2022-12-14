@@ -189,14 +189,26 @@ function drawMountain(mountainVar) {
 }
 
 function createCanyon(x, y, width) {
+
     var canyonVar = {
-        x: x,
+        x: checkValidCanyonX(x, width),
         y: y,
         width: width,
         height: height - floorY,
         canyonColor: random(canyonColorScheme)
     }
     return canyonVar
+}
+
+function checkValidCanyonX(x, width) {
+    // Check if canyon is too close to the other canyons
+    canyons.forEach((canyon) => {
+        // If canyon is too close to the other canyon, move it to the right
+        if (x + width / 2 >= canyon.x - canyon.width / 2 && x - width / 2 <= canyon.x + canyon.width / 2) {
+            x = canyon.x + canyon.width + width
+        }
+    })
+    return x
 }
 
 function drawCanyon(canyonVar) {
