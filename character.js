@@ -31,12 +31,14 @@ function createCharacter(x, y, width, direction, falling, jumping, alive) {
 		falling: falling,
 		jumping: jumping,
 		alive: alive,
-		xSpeed: 0
+		xSpeed: 0,
+		ySpeed: 0
 	}
 	return characterVar
 }
 
 function keyPressed() {
+	console.log(keyCode)
 	if (keyCode == 37) {
 		player.direction = "left"
 		player.xSpeed = -10
@@ -45,10 +47,9 @@ function keyPressed() {
 		player.direction = "right"
 		player.xSpeed = 10
 	}
-	if (keyCode == 38 && !player.jumping) {
+	if ((keyCode == 38 || keyCode == 32) && !player.jumping) {
 		player.jumping = true
-		player.y -= 80
-		player.displayY -= 80
+		player.ySpeed = -15
 	}
 
 }
@@ -90,25 +91,32 @@ function moveCharacter(characterVar) {
 		characterVar.x += characterVar.xSpeed
 		characterVar.displayX += characterVar.xSpeed
 
-		if (characterVar.displayX > width * 0.8) {
+		if (characterVar.displayX > width * 0.7) {
 			translation -= 10
 			characterVar.displayX -= 10
 		}
-		else if (characterVar.displayX < width * 0.2) {
+		else if (characterVar.displayX < width * 0.3) {
 			translation += 10
 			characterVar.displayX += 10
 		}
 
+		// Handle ySpeed
+		if (characterVar.jumping) {
+			characterVar.ySpeed += 1 // Gravity
+			
+			characterVar.y += characterVar.ySpeed
+			characterVar.displayY += characterVar.ySpeed
+		}
+
 		// Gravity
 		if (characterVar.jumping) {
-			characterVar.y += 5
-			characterVar.displayY += 5
 			if (characterVar.y > floorY) {
 				characterVar.jumping = false
 				characterVar.y = floorY
 				characterVar.displayY = floorY
 			}
 		}
+		console.log(characterVar.jumping)
 
 		// Canyon
 		if (characterVar.falling) {
