@@ -9,7 +9,8 @@ function createCollectable(x, y, size) {
         x: x,
         y: y,
         size: size,
-        collected: false
+        collected: false,
+        score: 1
     }
     return collectableVar
 }
@@ -47,8 +48,11 @@ function drawCollectable(collectableVar) {
 }
 
 function collectableCheck(collectableVar) {
-    var d = dist(player.x, player.y, collectableVar.x, collectableVar.y)
-    if (d < collectableVar.size) {
-        collectableVar.collected = true
+    if (!collectableVar.collected) {
+        if (dist(player.x, player.y, collectableVar.x, collectableVar.y) < collectableVar.size) {
+            collectableVar.collected = true
+            player.score += collectableVar.score
+        }
     }
+
 }
