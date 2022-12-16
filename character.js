@@ -19,7 +19,7 @@ function characterDraw() {
 	drawCharacter(player)
 }
 
-function createCharacter(x, y, width, direction, falling, jumping, alive) {
+function createCharacter(x, y, width, direction, plummeting, jumping, alive) {
 	var characterVar = {
 		x: x,
 		y: y,
@@ -28,7 +28,7 @@ function createCharacter(x, y, width, direction, falling, jumping, alive) {
 		height: 0, // height actually scales off the width
 		width: width,
 		direction: direction,
-		falling: falling,
+		plummeting: plummeting,
 		jumping: jumping,
 		alive: alive,
 		xSpeed: 0,
@@ -90,11 +90,11 @@ function moveCharacter(characterVar) {
 		characterVar.x += characterVar.xSpeed
 		characterVar.displayX += characterVar.xSpeed
 
-		if (characterVar.displayX > width * 0.7) {
+		if (characterVar.displayX > width * 0.6) {
 			translation -= 10
 			characterVar.displayX -= 10
 		}
-		else if (characterVar.displayX < width * 0.3) {
+		else if (characterVar.displayX < width * 0.4) {
 			translation += 10
 			characterVar.displayX += 10
 		}
