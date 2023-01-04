@@ -56,7 +56,7 @@ function sceneSetup() {
 
     for (var i = sceneSectionCount * -0.5; i < sceneSectionCount * 0.5; i++) {
         // Create Trees
-        var treeCount = random(5, 10)
+        var treeCount = random(Math.floor(width / 200), Math.floor(width / 100))
         for (var j = 0; j < treeCount; j++) {
             var tree = createTree(random(0, width) + i * width, floorY, random(50, 100), random(20, 30), random(75, 120), random(70, 120))
             trees.push(tree)
@@ -64,28 +64,28 @@ function sceneSetup() {
         }
 
         // Create Mountains
-        var mountainCount = random(1, 3)
+        var mountainCount = random(Math.floor(width / 500), Math.floor(width / 300))
         for (var j = 0; j < mountainCount; j++) {
             var mountain = createMountain(random(0, width) + i * width, floorY, random(200, 400), random(100, 300))
             mountains.push(mountain)
         }
 
         // Create Canyons
-        var canyonCount = random(1, 2)
+        var canyonCount = random(Math.floor(width / 750), Math.floor(width / 500))
         for (var j = 0; j < canyonCount; j++) {
             var canyon = createCanyon(random(width * 0.3, width) + i * width, floorY, random(100, 150))
             canyons.push(canyon)
         }
 
         // Create Collectables
-        var collectableCount = random(2, 5)
+        var collectableCount = random(Math.floor(width / 500), Math.floor(width / 300))
         for (var j = 0; j < collectableCount; j++) {
             var collectable = createCollectable(random(0, width) + i * width, floorY - 30, 40)
             collectables.push(collectable)
         }
 
         // Create Clouds
-        var cloudCount = random(Math.floor(width / 300), Math.floor(width / 100))
+        var cloudCount = random(Math.floor(width / 300), Math.floor(width / 150))
         for (var j = 0; j < cloudCount; j++) {
             var cloud = createCloud(random(0, width) + i * width, random(0.25 * floorY, 0.6 * floorY), trackStartX, trackEndX)
             clouds.push(cloud)
