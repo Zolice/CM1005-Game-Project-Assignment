@@ -86,27 +86,27 @@ function createTree(x, y, logHeight, logWidth, leafHeight, leafWidth) {
     return treeVar
 }
 
-function drawTree(treeVar) {
+function drawTree(treeXValue, treeVar) {
     // Draw the Log
     noStroke()
     fill(treeVar.logColor)
-    rect(treeVar.x - treeVar.logWidth / 2, treeVar.y, treeVar.logWidth, -treeVar.logHeight)
-    triangle(treeVar.x - treeVar.logWidth * 3 / 4, treeVar.y, treeVar.x + treeVar.logWidth * 3 / 4, treeVar.y, treeVar.x, treeVar.y - treeVar.leafHeight)
-    triangle(treeVar.x - treeVar.logWidth, treeVar.y, treeVar.x + treeVar.logWidth, treeVar.y, treeVar.x, treeVar.y - treeVar.leafHeight / 3)
+    rect(treeXValue - treeVar.logWidth / 2, treeVar.y, treeVar.logWidth, -treeVar.logHeight)
+    triangle(treeXValue - treeVar.logWidth * 3 / 4, treeVar.y, treeXValue + treeVar.logWidth * 3 / 4, treeVar.y, treeXValue, treeVar.y - treeVar.leafHeight)
+    triangle(treeXValue - treeVar.logWidth, treeVar.y, treeXValue + treeVar.logWidth, treeVar.y, treeXValue, treeVar.y - treeVar.leafHeight / 3)
 
     // Draw the Leaves
     fill(treeVar.leafColor1)
-    triangle(treeVar.x - treeVar.leafWidth / 2, treeVar.y - treeVar.logHeight, treeVar.x + treeVar.leafWidth / 2, treeVar.y - treeVar.logHeight, treeVar.x, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 3 / 5)
+    triangle(treeXValue - treeVar.leafWidth / 2, treeVar.y - treeVar.logHeight, treeXValue + treeVar.leafWidth / 2, treeVar.y - treeVar.logHeight, treeXValue, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 3 / 5)
 
     fill(treeVar.leafColor2)
-    triangle(treeVar.x - treeVar.leafWidth / 3, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 1.5 / 5, treeVar.x + treeVar.leafWidth / 3, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 1.5 / 5, treeVar.x, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 4 / 5)
+    triangle(treeXValue - treeVar.leafWidth / 3, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 1.5 / 5, treeXValue + treeVar.leafWidth / 3, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 1.5 / 5, treeXValue, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 4 / 5)
 
     fill(treeVar.leafColor3)
-    triangle(treeVar.x - treeVar.leafWidth / 5, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 3 / 5, treeVar.x + treeVar.leafWidth / 5, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 3 / 5, treeVar.x, treeVar.y - treeVar.logHeight - treeVar.leafHeight)
+    triangle(treeXValue - treeVar.leafWidth / 5, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 3 / 5, treeXValue + treeVar.leafWidth / 5, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 3 / 5, treeXValue, treeVar.y - treeVar.logHeight - treeVar.leafHeight)
 
     if (debug_anchor) {
         fill(255, 0, 0)
-        ellipse(treeVar.x, treeVar.y, 5, 5)
+        ellipse(treeXValue, treeVar.y, 5, 5)
     }
 
 }
@@ -224,7 +224,7 @@ function drawCanyon(canyonVar) {
 
 function canyonCheck(canyonVar) {
     // Check if Player is in the canyon
-    if(player.x + player.width/2 <= canyonVar.x + canyonVar.width/2 && player.x - player.width/2 >= canyonVar.x - canyonVar.width/2 && player.y == floorY) {
+    if (player.x + player.width / 2 <= canyonVar.x + canyonVar.width / 2 && player.x - player.width / 2 >= canyonVar.x - canyonVar.width / 2 && player.y == floorY) {
         player.plummeting = true
     }
 }

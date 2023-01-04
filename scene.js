@@ -42,6 +42,7 @@ function sceneSetup() {
 
     // Reset arrays
     trees = []
+    treesX = []
     clouds = []
     mountains = []
     canyons = []
@@ -61,6 +62,7 @@ function sceneSetup() {
         for (var j = 0; j < treeCount; j++) {
             var tree = createTree(random(0, width) + i * width, floorY, random(50, 100), random(20, 30), random(75, 120), random(70, 120))
             trees.push(tree)
+            treesX.push(tree.x)
         }
 
         // Create Mountains
@@ -99,7 +101,9 @@ function sceneDraw() {
     mountains.forEach(mountain => drawMountain(mountain))
 
     // Draw Trees
-    trees.forEach(tree => drawTree(tree))
+    for (let i = 0; i < trees.length; i++) {
+        drawTree(treesX[i], trees[i])
+    }
 
     // Draw Canyons
     canyons.forEach(canyon => drawCanyon(canyon))

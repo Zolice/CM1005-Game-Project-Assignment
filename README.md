@@ -8,6 +8,11 @@ Project assigned by SIM GE - UOL for the purpose of CM1005 Introduction to Compu
 # Instructions
 To start, open the index.html file.
 
+# Additional Information
+To enable the display of anchor points, set the `debug_anchor` variable to `true` in the `sketch.js` file.
+
+To display the frame rate counter on the top left corner of the screen, set the `ui_debug` variable to `true` in the `ui.js` file.
+
 # Assignments
 ## Game Project Part 1
 - [x] Draw Clouds
@@ -59,9 +64,3 @@ To start, open the index.html file.
 - [x] Refactor canyon interaction 
 - [x] Create multiple collectables 
 - [x] Create multiple canyons 
-
-# Considerable Feedback/TODO
-- [ ] Add a game over screen
-- [ ] Wall at the start of the map (x = -500)
-- [ ] Make collectables hover
-- [ ] Fluid Translation for movement

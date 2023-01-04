@@ -90,11 +90,15 @@ function moveCharacter(characterVar) {
 		characterVar.x += characterVar.xSpeed
 		characterVar.displayX += characterVar.xSpeed
 
-		if (characterVar.displayX > width * 0.6) {
+		if ((characterVar.displayX - width * 0.5) < 10 && (characterVar.displayX - width * 0.5) > -10) {
+			translation -= characterVar.displayX - width * 0.5
+			characterVar.displayX = width * 0.5
+		}
+		else if (characterVar.displayX > width * 0.5) {
 			translation -= 10
 			characterVar.displayX -= 10
 		}
-		else if (characterVar.displayX < width * 0.4) {
+		else if (characterVar.displayX < width * 0.5) {
 			translation += 10
 			characterVar.displayX += 10
 		}
