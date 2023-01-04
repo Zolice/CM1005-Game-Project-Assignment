@@ -1,3 +1,4 @@
+// Toggle for Frame Rate Counter
 var ui_debug = true
 
 var frameRateVar = 60

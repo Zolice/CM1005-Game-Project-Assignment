@@ -39,7 +39,7 @@ function sceneSetup() {
 
     // Calculate how many scene sections
     // Please set an even number.
-    // sceneSectionCount = random(3, 5)
+    // sceneSectionCount = random(3, 5) * 2
     sceneSectionCount = 30
     trackEndX = sceneSectionCount * 0.5 * width
     trackStartX = sceneSectionCount * -0.5 * width
@@ -51,8 +51,6 @@ function sceneSetup() {
     mountains = []
     canyons = []
     collectables = []
-
-
 
     for (var i = sceneSectionCount * -0.5; i < sceneSectionCount * 0.5; i++) {
         // Create Trees

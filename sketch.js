@@ -1,9 +1,10 @@
+// Toggle for anchor points
 var debug_anchor = true
 
 var floorY
 var translation = 0;
 
-function setup() { // This function is called only once
+function setup() {
 	console.log("Starting setup...")
 	createCanvas(windowWidth, windowHeight - 32)
 	floorY = height * 0.7
@@ -15,14 +16,13 @@ function setup() { // This function is called only once
 	console.log("Setup complete")
 }
 
-function draw() // This function is ran per frame
-{
+function draw() {
 	sceneDraw()
 	characterDraw()
 	uiDraw()
 }
 
-function keyPressed() { // Reload the page when R is pressed
+function keyPressed() {
 	if (keyCode == 82 && player.plummeting) {
 		setup()
 	}

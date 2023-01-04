@@ -1,11 +1,3 @@
-var mountain = {
-    x: 400,
-    y: 400,
-    width: 300,
-    height: 300
-
-}
-
 var treeLeafColorScheme = [
     [27, 94, 32],
     [46, 125, 50],
@@ -108,7 +100,6 @@ function drawTree(treeXValue, treeVar) {
         fill(255, 0, 0)
         ellipse(treeXValue, treeVar.y, 5, 5)
     }
-
 }
 
 function createCloud(x, y, minX, maxX) {
