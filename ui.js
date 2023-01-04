@@ -33,7 +33,7 @@ function uiDraw() {
         }
     }
 
-    if(ui_debug){
+    if (ui_debug) {
         text("FPS: " + Math.floor(frameRate()), 20, 40)
     }
 }

@@ -40,7 +40,7 @@ function sceneSetup() {
     // Calculate how many scene sections
     // Please set an even number.
     // sceneSectionCount = random(3, 5)
-    sceneSectionCount = 30 
+    sceneSectionCount = 30
     trackEndX = sceneSectionCount * 0.5 * width
     trackStartX = sceneSectionCount * -0.5 * width
 

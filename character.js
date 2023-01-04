@@ -34,7 +34,7 @@ function createCharacter(x, y, width, direction, plummeting, jumping, alive) {
 		jumping: jumping,
 		alive: alive,
 		xSpeed: 0,
-		ySpeed: 0, 
+		ySpeed: 0,
 		score: 0
 	}
 	return characterVar
@@ -108,7 +108,7 @@ function moveCharacter(characterVar) {
 		// Handle ySpeed
 		if (characterVar.jumping) {
 			characterVar.ySpeed += 1 // Gravity
-			
+
 			characterVar.y += characterVar.ySpeed
 			characterVar.displayY += characterVar.ySpeed
 		}

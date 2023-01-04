@@ -1,4 +1,4 @@
-var debug_anchor = false
+var debug_anchor = true
 
 var floorY
 var translation = 0;
@@ -8,7 +8,7 @@ function setup() { // This function is called only once
 	createCanvas(windowWidth, windowHeight - 32)
 	floorY = height * 0.7
 	translation = 0
-	
+
 	uiSetup()
 	characterSetup()
 	sceneSetup()
@@ -23,7 +23,7 @@ function draw() // This function is ran per frame
 }
 
 function keyPressed() { // Reload the page when R is pressed
-	if(keyCode == 82 && player.plummeting) {
+	if (keyCode == 82 && player.plummeting) {
 		setup()
 	}
 
