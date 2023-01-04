@@ -111,10 +111,11 @@ function drawTree(treeXValue, treeVar) {
 
 }
 
-function createCloud(x, y, maxX) {
+function createCloud(x, y, minX, maxX) {
     var cloudVar = {
         x: x,
         y: y,
+        minX: minX,
         maxX: maxX,
         xSpeed: random(0.5, 1.5),
         cloudColor: random(cloudColorScheme),
@@ -147,7 +148,7 @@ function moveCloud(cloudVar) {
 
     // Recreate the cloud if cloud is off the screen
     if (cloudVar.x - cloudVar.width >= cloudVar.maxX) {
-        cloudVar.x = 0 - cloudVar.width
+        cloudVar.x = cloudVar.minX - cloudVar.width
         cloudVar.xSpeed = random(0.5, 1.5)
         cloudVar.cloudColor = random(cloudColorScheme)
     }

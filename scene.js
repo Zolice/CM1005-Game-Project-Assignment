@@ -29,6 +29,7 @@ var canyons = []
 var collectables = []
 var backgroundColor
 var floorColor
+var trackEndX = 0
 
 function sceneSetup() {
     backgroundColor = random(backgroundColorScheme)
@@ -37,8 +38,11 @@ function sceneSetup() {
     rect(0, floorY, width, height - floorY)
 
     // Calculate how many scene sections
+    // Please set an even number.
     // sceneSectionCount = random(3, 5)
-    sceneSectionCount = 50
+    sceneSectionCount = 30 
+    trackEndX = sceneSectionCount * 0.5 * width
+    trackStartX = sceneSectionCount * -0.5 * width
 
     // Reset arrays
     trees = []
@@ -48,15 +52,9 @@ function sceneSetup() {
     canyons = []
     collectables = []
 
-    // Create Clouds
-    // Clouds stay on screen all the time, not affected by sections
-    var cloudCount = random(Math.floor(width / 300), Math.floor(width / 100))
-    for (var j = 0; j < cloudCount; j++) {
-        var cloud = createCloud(random(0, width), random(0.25 * floorY, 0.6 * floorY), width)
-        clouds.push(cloud)
-    }
 
-    for (var i = 0; i < sceneSectionCount; i++) {
+
+    for (var i = sceneSectionCount * -0.5; i < sceneSectionCount * 0.5; i++) {
         // Create Trees
         var treeCount = random(5, 10)
         for (var j = 0; j < treeCount; j++) {
@@ -85,6 +83,13 @@ function sceneSetup() {
             var collectable = createCollectable(random(0, width) + i * width, floorY - 30, 40)
             collectables.push(collectable)
         }
+
+        // Create Clouds
+        var cloudCount = random(Math.floor(width / 300), Math.floor(width / 100))
+        for (var j = 0; j < cloudCount; j++) {
+            var cloud = createCloud(random(0, width) + i * width, random(0.25 * floorY, 0.6 * floorY), trackStartX, trackEndX)
+            clouds.push(cloud)
+        }
     }
 }
 
@@ -111,9 +116,8 @@ function sceneDraw() {
     // Draw Collectables
     collectables.forEach(collectable => drawCollectable(collectable))
 
-    pop()
-
-    // Clouds
     // Draw Clouds
     clouds.forEach(cloud => drawClouds(cloud))
+
+    pop()
 }
