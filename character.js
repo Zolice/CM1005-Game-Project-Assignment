@@ -11,6 +11,8 @@ var characterColorScheme = {
 
 function characterSetup() {
 	player = createCharacter(random(0, width * 0.3), floorY, 60, "front", false, false, false)
+	translation = width * 0.5 - player.displayX
+	player.displayX += translation
 }
 
 function characterDraw() {
