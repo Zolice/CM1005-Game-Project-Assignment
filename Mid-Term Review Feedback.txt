@@ -1,0 +1,67 @@
+Game character: 
+can move left and right: Done
+can jump: Done
+can jump over canyon: Done
+can fall into canyon: Done
+can scroll left and right of the game scene: Done
+Is able to collect collectable: Done
+Scrolling: Not Done - New Scrolling requirement, please check Submission Instruction in Coursera
+
+Parallax scrolling - cloud animation: 
+parallax scrolling effects implemented: Done
+
+Arrays: 
+trees: 
+implemented trees_x array: Not Done - Use trees_x array as required. Can add in more array for other attributes
+at least 3 trees_x in the array: Done
+
+clouds: 
+implemented cloud objects array: Done
+at least 3 cloud object in the array: Done
+
+mountains: 
+implemented mountain objects array: Done
+at least 3 mountain object in the array: Done
+
+canyons: 
+implemented canyon objects array: Done
+at least 3 canyon object in the array: Done
+
+collectables: 
+implemented collectable object array: Done
+at least 3 collectable objects in the array: Done
+
+
+Drawing: 
+trees: 
+draw trees in trees_x array using loop: Done
+anchoring done correctly (leave at least one point x untouched in the drawing): Done
+
+
+clouds: 
+draw clouds objects in array using loop: Done
+each cloud is drawn with the position and size determined by the corresponding object in the array.: Done
+anchoring done correctly (leave at least one point untouched in the drawing): Done
+
+
+mountains: 
+draw mountains objects in array using loop: Done
+each mountains is drawn with the position and size determined by the corresponding object in the array.: Done
+anchoring done correctly (leave at least one point untouched in the drawing): Done
+
+
+canyons: 
+draw canyons objects in array using loop: Done
+each canyons is drawn with the position and size determined by the corresponding object in the array.: Done
+anchoring done correctly (leave at least one point untouched in the drawing): Done
+
+
+collectables: 
+draw collectables objects in array using loop: Done
+each collectables is drawn with the position and size determined by the corresponding object in the array.: Done
+anchoring done correctly (leave at least one point untouched in the drawing): Done
+
+
+General comments for all:
+Remember to comment where is the anchor point for each object in the codes
+Draw a small red circle to show the anchor poindadwt

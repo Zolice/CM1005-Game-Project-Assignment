@@ -13,6 +13,9 @@ To enable the display of anchor points, set the `debug_anchor` variable to `true
 
 To display the frame rate counter on the top left corner of the screen, set the `ui_debug` variable to `true` in the `ui.js` file.
 
+# Built Using
+![p5js](https://img.shields.io/badge/p5.js-ED225D?style=for-the-badge&logo=p5.js&logoColor=FFFFFF)
+
 # Assignments
 ## Game Project Part 1
 - [x] Draw Clouds
