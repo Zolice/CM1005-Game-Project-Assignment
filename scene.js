@@ -27,6 +27,7 @@ var clouds = []
 var mountains = []
 var canyons = []
 var collectables = []
+var flag
 var backgroundColor
 var floorColor
 var trackEndX = 0
@@ -40,7 +41,7 @@ function sceneSetup() {
     // Calculate how many scene sections
     // Please set an even number.
     // sceneSectionCount = random(3, 5) * 2
-    sceneSectionCount = 30
+    sceneSectionCount = 10
     trackEndX = sceneSectionCount * 0.5 * width
     trackStartX = sceneSectionCount * -0.5 * width
 
@@ -51,6 +52,9 @@ function sceneSetup() {
     mountains = []
     canyons = []
     collectables = []
+    checkpoints = []
+
+    flag = null
 
     for (var i = sceneSectionCount * -0.5; i < sceneSectionCount * 0.5; i++) {
         // Create Trees
@@ -88,7 +92,17 @@ function sceneSetup() {
             var cloud = createCloud(random(0, width) + i * width, random(0.25 * floorY, 0.6 * floorY), trackStartX, trackEndX)
             clouds.push(cloud)
         }
+
+        // Create Checkpoints
+        if (i % 3 == 0 && abs(i) != sceneSectionCount * 0.5 && i != 0) {
+            var checkpoint = createFlag(random(width * 0.1, width * 0.3) + i * width, floorY, floorY * 0.6)
+            checkpoints.push(checkpoint)
+        }
     }
+
+    // Create Flag
+    flag = createFlag(trackEndX + 50, floorY, floorY * 0.8, true)
+
 }
 
 function sceneDraw() {
@@ -116,6 +130,12 @@ function sceneDraw() {
 
     // Draw Clouds
     clouds.forEach(cloud => drawClouds(cloud))
+
+    // Draw Checkpoints
+    checkpoints.forEach(checkpoint => drawFlag(checkpoint))
+
+    // Draw Flag
+    drawFlag(flag)
 
     pop()
 }

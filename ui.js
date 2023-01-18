@@ -6,8 +6,8 @@ var frameRateVar = 60
 var uiDefaultFontColor = [0, 0, 0]
 var timer = 0
 
-var uiGameLostBackground = [0, 0, 0, 75]
-var uiGameLostFontColor = [255, 255, 255]
+var uiBackground = [0, 0, 0, 75]
+var uiFontColour = [255, 255, 255]
 
 function uiSetup() {
     timer = 0
@@ -15,8 +15,12 @@ function uiSetup() {
 }
 
 function uiDraw() {
-    if (player.plummeting) {
+    if (!player.alive) {
         uiGameLost()
+    }
+
+    if (player.gameWon) {
+        uiGameWon()
     }
 
     fill(uiDefaultFontColor)
@@ -28,24 +32,45 @@ function uiDraw() {
     text("Score: " + Math.floor(player.score),
         96, 20)
 
-    if (!player.plummeting) {
+    text("Lives: " + player.lives, 20, 40)
+
+    if (player.alive && !player.gameWon) {
         if (frameRate() > 0) { // Prevents 1 / 0
             timer += (1 / frameRate())
         }
     }
 
     if (ui_debug) {
-        text("FPS: " + Math.floor(frameRate()), 20, 40)
+        text("FPS: " + Math.floor(frameRate()), 20, 60)
     }
 }
 
 function uiGameLost() {
-    fill(uiGameLostBackground)
+    fill(uiBackground)
     rect(0, 0, width, height)
-    fill(uiGameLostFontColor)
+    fill(uiFontColour)
     textSize(128)
     textAlign(CENTER, CENTER)
-    text("You fell!", width / 2, height / 2)
+    text("You ran out of Lives!", width / 2, height / 2)
+    textSize(32)
+    text("Press R to restart", width / 2, height / 2 + 80)
+
+    textSize(24)
+    text("Time: " + Math.floor(timer) + "s",
+        width / 2, height / 2 + 128)
+    text("Score: " + Math.floor(player.score),
+        width / 2, height / 2 + 160)
+
+    textAlign(LEFT, TOP)
+}
+
+function uiGameWon() {
+    fill(uiBackground)
+    rect(0, 0, width, height)
+    fill(uiFontColour)
+    textSize(128)
+    textAlign(CENTER, CENTER)
+    text("You won!", width / 2, height / 2)
     textSize(32)
     text("Press R to restart", width / 2, height / 2 + 64)
 
@@ -54,6 +79,8 @@ function uiGameLost() {
         width / 2, height / 2 + 128)
     text("Score: " + Math.floor(player.score),
         width / 2, height / 2 + 160)
+    text("Lives: " + Math.floor(player.lives),
+        width / 2, height / 2 + 192)
 
     textAlign(LEFT, TOP)
 }

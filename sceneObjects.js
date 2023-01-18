@@ -220,3 +220,53 @@ function canyonCheck(canyonVar) {
         player.plummeting = true
     }
 }
+
+function createFlag(x, y, height, lastFlag) {
+    var flagVar = {
+        x: x,
+        y: y,
+        flagWidth: height * 0.35,
+        flagHeight: height * 0.25,
+        flagY: y,
+        flagColor: lastFlag ? [253, 216, 53] : [229, 57, 53], // Yellow : Red
+        flagPoleColor: [189, 189, 189], // Silver
+        poleWidth: 5,
+        height: height,
+        flagReached: false,
+        lastFlag: lastFlag
+    }
+    return flagVar
+}
+
+function drawFlag(flagVar) {
+    flagCheck(flagVar)
+    fill(flagVar.flagColor)
+    noStroke()
+    // rect(flagVar.x, flagVar.flagY, flagVar.flagWidth, -flagVar.flagHeight)
+    triangle(flagVar.x, flagVar.flagY, flagVar.x + flagVar.flagWidth, flagVar.flagY - flagVar.flagHeight * 0.5, flagVar.x, flagVar.flagY - flagVar.flagHeight)
+    fill(flagVar.flagPoleColor)
+    rect(flagVar.x - flagVar.poleWidth * 0.5, flagVar.y, flagVar.poleWidth, -flagVar.height)
+
+    if (debug_anchor) {
+        fill(255, 0, 0)
+        ellipse(flagVar.x, flagVar.y, 5, 5)
+    }
+}
+
+function flagCheck(flagVar) {
+    // Check if Player is on the flag
+
+    if (abs(player.x - flagVar.x) <= flagVar.poleWidth * 2) {
+        player.lastCheckpoint = flagVar.x
+        flagVar.flagReached = true
+        flagVar.flagColor = flagVar.lastFlag ? [253, 216, 53] : [67, 160, 71]
+        if(flagVar.lastFlag){
+            player.gameWon = true
+        }
+    }
+
+    // Move the flag up
+    if (flagVar.flagReached) {
+        flagVar.flagY = max(flagVar.flagY - 5, flagVar.y - flagVar.height + flagVar.flagHeight)
+    }
+}

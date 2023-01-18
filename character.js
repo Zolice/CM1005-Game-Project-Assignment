@@ -10,7 +10,7 @@ var characterColorScheme = {
 }
 
 function characterSetup() {
-	player = createCharacter(random(0, width * 0.3), floorY, 60, "front", false, false, false)
+	player = createCharacter(random(0, width * 0.3), floorY, 60, "front", false, false, true)
 	translation = width * 0.5 - player.displayX
 	player.displayX += translation
 }
@@ -35,7 +35,10 @@ function createCharacter(x, y, width, direction, plummeting, jumping, alive) {
 		alive: alive,
 		xSpeed: 0,
 		ySpeed: 0,
-		score: 0
+		score: 0,
+		lives: 3,
+		lastCheckpoint: x, 
+		gameWon: false
 	}
 	return characterVar
 }
@@ -87,23 +90,26 @@ function moveCharacter(characterVar) {
 		characterVar.jumping = true
 		characterVar.y += 10
 		characterVar.displayY += 10
+
+		// Reset Character
+		resetCharacter(characterVar)
 	} else {
 		// Move Character Left and Right
 		characterVar.x += characterVar.xSpeed
 		characterVar.displayX += characterVar.xSpeed
 
-		if ((characterVar.displayX - width * 0.5) < 10 && (characterVar.displayX - width * 0.5) > -10) {
-			translation -= characterVar.displayX - width * 0.5
-			characterVar.displayX = width * 0.5
-		}
-		else if (characterVar.displayX > width * 0.5) {
-			translation -= 10
-			characterVar.displayX -= 10
-		}
-		else if (characterVar.displayX < width * 0.5) {
-			translation += 10
-			characterVar.displayX += 10
-		}
+		// if ((characterVar.displayX - width * 0.5) < 10 && (characterVar.displayX - width * 0.5) > -10) {
+		translation -= characterVar.displayX - width * 0.5
+		characterVar.displayX = width * 0.5
+		// }
+		// else if (characterVar.displayX > width * 0.5) {
+		// 	translation -= 10
+		// 	characterVar.displayX -= 10
+		// }
+		// else if (characterVar.displayX < width * 0.5) {
+		// 	translation += 10
+		// 	characterVar.displayX += 10
+		// }
 
 		// Handle ySpeed
 		if (characterVar.jumping) {
@@ -121,11 +127,26 @@ function moveCharacter(characterVar) {
 				characterVar.displayY = floorY
 			}
 		}
+	}
+}
 
-		// Canyon
-		if (characterVar.falling) {
-			characterVar.y -= 10
-			characterVar.displayY -= 10
+function resetCharacter(characterVar) {
+	console.log("Resetting Character, Lives left = " + characterVar.lives)
+	if (characterVar.y >= height && characterVar.alive) {
+		// Character hit the floor
+		// Bring Character to safe checkpoint
+		characterVar.lives -= 1
+		if (characterVar.lives <= 0) {
+			characterVar.alive = false
+		}
+		else {
+			var checkpointLocation = characterVar.x - characterVar.lastCheckpoint
+			characterVar.x -= checkpointLocation
+			characterVar.displayX -= checkpointLocation
+			characterVar.y = floorY
+			characterVar.displayY = floorY
+
+			characterVar.plummeting = false
 		}
 	}
 }

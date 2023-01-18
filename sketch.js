@@ -23,7 +23,7 @@ function draw() {
 }
 
 function keyPressed() {
-	if (keyCode == 82 && player.plummeting) {
+	if ((keyCode == 82 && player.plummeting) || (keyCode == 82 && player.gameWon)) {
 		setup()
 	}
 
