@@ -37,7 +37,7 @@ function createCharacter(x, y, width, direction, plummeting, jumping, alive) {
 		ySpeed: 0,
 		score: 0,
 		lives: 3,
-		lastCheckpoint: x, 
+		lastCheckpoint: x,
 		gameWon: false
 	}
 	return characterVar
@@ -131,7 +131,6 @@ function moveCharacter(characterVar) {
 }
 
 function resetCharacter(characterVar) {
-	console.log("Resetting Character, Lives left = " + characterVar.lives)
 	if (characterVar.y >= height && characterVar.alive) {
 		// Character hit the floor
 		// Bring Character to safe checkpoint
