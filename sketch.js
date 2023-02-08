@@ -4,6 +4,11 @@ var debug_anchor = true
 var floorY
 var translation = 0;
 
+function preload() {
+	soundSetup()
+	
+}
+
 function setup() {
 	console.log("Starting setup...")
 	createCanvas(windowWidth, windowHeight - 32)

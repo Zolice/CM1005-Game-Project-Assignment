@@ -127,8 +127,7 @@ function moveCharacter(characterVar) {
 				characterVar.displayY = floorY
 			}
 		}
-	}
-}
+	}}
 
 function resetCharacter(characterVar) {
 	if (characterVar.y >= height && characterVar.alive) {
@@ -144,6 +143,7 @@ function resetCharacter(characterVar) {
 			characterVar.displayX -= checkpointLocation
 			characterVar.y = floorY
 			characterVar.displayY = floorY
+			characterVar.ySpeed = -5
 
 			characterVar.plummeting = false
 		}
