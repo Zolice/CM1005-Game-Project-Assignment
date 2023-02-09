@@ -6,7 +6,8 @@ var translation = 0;
 
 function preload() {
 	soundSetup()
-	
+
+	loadGameSounds()
 }
 
 function setup() {
@@ -25,6 +26,8 @@ function draw() {
 	sceneDraw()
 	characterDraw()
 	uiDraw()
+
+	console.log(soundObject.loaded)
 }
 
 function keyPressed() {
