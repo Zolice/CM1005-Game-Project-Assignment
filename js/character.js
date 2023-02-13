@@ -55,6 +55,7 @@ function characterKeyPressed(keyCode) {
 	if ((keyCode == 38 || keyCode == 32) && !player.jumping) {
 		player.jumping = true
 		player.ySpeed = -15
+		soundObject.playSound("jump")
 	}
 }
 

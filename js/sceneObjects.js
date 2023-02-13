@@ -218,6 +218,7 @@ function canyonCheck(canyonVar) {
     // Check if Player is in the canyon
     if (player.x + player.width / 2 <= canyonVar.x + canyonVar.width / 2 && player.x - player.width / 2 >= canyonVar.x - canyonVar.width / 2 && player.y == floorY) {
         player.plummeting = true
+        soundObject.playSound("plummeting")
     }
 }
 
@@ -256,12 +257,16 @@ function drawFlag(flagVar) {
 function flagCheck(flagVar) {
     // Check if Player is on the flag
 
-    if (abs(player.x - flagVar.x) <= flagVar.poleWidth * 2) {
+    if (!flagVar.flagReached && abs(player.x - flagVar.x) <= flagVar.poleWidth * 2) {
         player.lastCheckpoint = flagVar.x
         flagVar.flagReached = true
         flagVar.flagColor = flagVar.lastFlag ? [253, 216, 53] : [67, 160, 71]
         if(flagVar.lastFlag){
             player.gameWon = true
+            soundObject.playSound("win")
+        }
+        else{
+            soundObject.playSound("checkpoint")
         }
     }
 

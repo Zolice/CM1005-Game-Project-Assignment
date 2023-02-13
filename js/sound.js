@@ -1,40 +1,43 @@
-var soundObject
-
-function soundSetup() {
-    soundObject = {
-        length: 0,
-        loadedCount: 0,
-        loaded: false,
-        soundLoaded: () => {
-            console.log('Sound loaded')
-            soundObject.loadedCount++
-            if (soundObject.loadedCount >= this.length) {
-                soundObject.loaded = true
-            }
-            else{
-                soundObject.loaded = false
-            }
-            console.log(soundObject)
-        },
-        addSound: function (name, sound) {
-            soundObject[name] = sound
-            // soundObject.sound.push(sound)
-            soundObject.length++
-            soundObject.loaded = false
-        },
-        sound: {}
-    }
+var soundObject = {
+    length: 0,
+    loadedCount: 0,
+    loaded: false,
+    soundLoaded: function () {
+        console.log('Sound loaded')
+        console.log(this)
+        this.loadedCount++
+        console.log('Sound loaded count: ' + this.loadedCount + ' / ' + this.length) 
+        if (this.loadedCount >= this.length) {
+            this.loaded = true
+        }
+        else {
+            this.loaded = false
+        }
+    },
+    addSound: function (name, sound) {
+        this.sound[name] = sound
+        this.length++
+        this.loaded = false
+    },
+    getSound: function (name) {
+        return this.sound[name]
+    },
+    playSound: function (name) {
+        this.sound[name].play()
+    },
+    stopSound: function (name) {
+        this.sound[name].stop()
+    },
+    sound: {}
 }
 
-function loadGameSounds() {
-    soundObject.addSound(loadSound("assets/jump.wav", soundObject.soundLoaded))
-    // soundObject.addSound(new Sound("land", "assets/sounds/land.wav"))
-    // soundObject.addSound(new Sound("plummet", "assets/sounds/plummet.wav"))
-    // soundObject.addSound(new Sound("win", "assets/sounds/win.wav"))
-    // soundObject.addSound(new Sound("lose", "assets/sounds/lose.wav"))
-    // soundObject.addSound(new Sound("music", "assets/sounds/music.wav"))
-    // soundObject.addSound(new Sound("music2", "assets/sounds/music2.wav"))
-    // soundObject.addSound(new Sound("music3", "assets/sounds/music3.wav"))
 
+function soundSetup() {
+    console.log(soundObject)
+    soundObject.addSound("jump", loadSound("assets/sound/jump.mp3",() => soundObject.soundLoaded()))
+    soundObject.addSound("checkpoint", loadSound("assets/sound/checkpoint.mp3", () => soundObject.soundLoaded()))
+    soundObject.addSound("plummeting", loadSound("assets/sound/plummeting.mp3", () => soundObject.soundLoaded()))
+    soundObject.addSound("win", loadSound("assets/sound/win.mp3", () => soundObject.soundLoaded()))
+    soundObject.addSound("point", loadSound("assets/sound/point.mp3", () => soundObject.soundLoaded()))
     console.log(soundObject)
 }

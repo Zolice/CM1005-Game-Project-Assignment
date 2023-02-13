@@ -52,6 +52,7 @@ function collectableCheck(collectableVar) {
         if (dist(player.x, player.y, collectableVar.x, collectableVar.y) < collectableVar.size) {
             collectableVar.collected = true
             player.score += collectableVar.score
+            soundObject.playSound("point")
         }
     }
 

@@ -45,6 +45,16 @@ function uiDraw() {
     }
 }
 
+function uiLoading() {
+    console.log("Loading...")
+    fill(uiBackground)
+    rect(0, 0, width, height)
+    fill(uiFontColour)
+    textSize(128)
+    textAlign(CENTER, CENTER)
+    text("Loading...", width / 2, height / 2)
+}
+
 function uiGameLost() {
     fill(uiBackground)
     rect(0, 0, width, height)

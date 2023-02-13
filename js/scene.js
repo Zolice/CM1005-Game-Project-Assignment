@@ -35,6 +35,7 @@ var trackEndX = 0
 function sceneSetup() {
     backgroundColor = random(backgroundColorScheme)
     floorColor = random(floorColorScheme)
+    noStroke()
     fill(floorColor)
     rect(0, floorY, width, height - floorY)
 

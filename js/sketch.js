@@ -1,16 +1,20 @@
 // Toggle for anchor points
-var debug_anchor = true
+var debug_anchor = false
 
 var floorY
 var translation = 0;
 
 function preload() {
 	soundSetup()
-
-	loadGameSounds()
 }
 
 function setup() {
+	uiLoading()
+	while (!soundObject.loaded) {
+		console.log(soundObject.loaded)
+	}
+
+
 	console.log("Starting setup...")
 	createCanvas(windowWidth, windowHeight - 32)
 	floorY = height * 0.7
@@ -26,8 +30,6 @@ function draw() {
 	sceneDraw()
 	characterDraw()
 	uiDraw()
-
-	console.log(soundObject.loaded)
 }
 
 function keyPressed() {

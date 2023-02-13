@@ -6,7 +6,7 @@
 Project assigned by SIM GE - UOL for the purpose of CM1005 Introduction to Computer Programming I
 
 # Instructions
-To start, open the index.html file.
+To start, open the `index.html` file.
 
 # Additional Information
 To enable the display of anchor points, set the `debug_anchor` variable to `true` in the `sketch.js` file.
@@ -67,3 +67,6 @@ To display the frame rate counter on the top left corner of the screen, set the 
 - [x] Refactor canyon interaction 
 - [x] Create multiple collectables 
 - [x] Create multiple canyons 
+
+# Acknowledgements
+- Sound Effects from [Mixkit](https://mixkit.co/)
