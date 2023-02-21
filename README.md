@@ -1,15 +1,13 @@
-<div>
-    <div style="float: left; margin-right: 16px;">
-        <a href="https://github.com/Zolice/CM1005-Game-Project-Assignment">
-            <img src="./images/icon.png" alt="Logo" height="128">
-        </a>
-    </div>
-    <div>
-        <br>
-        <h1>CM1005 Game Project Assignment</h1>
-        <p>Project assigned by SIM GE - UOL for the purpose of CM1005 Introduction to Computer Programming I</p>
-        <br>
-    </div>
+<div id="header" align="center">
+  <a href="https://github.com/Zolice/CM1005-Game-Project-Assignment">
+    <img src="./images/icon.png" alt="Logo" height="128">
+  </a>
+
+  <h3 align="center">CM1005 Game Project Assignment</h3>
+
+  <p align="center">
+    Project assigned by SIM GE - UOL for the purpose of CM1005 Introduction to Computer Programming I
+  </p>
 </div>
 
 
@@ -39,7 +37,7 @@ To customize the Frame Rate, set the `applyFrameRate` constant to the desired va
 - [x] Animations
 - [x] Sound Effects (Enhancement)
 - [ ] Platforms (Enhancement)
-- [ ] Particle Effects (Fireworks) (Enhancement)
+- [x] Particle Effects (Fireworks) (Enhancement)
 - [ ] Enemies (Enhancement)
 
 # Screenshots
@@ -48,3 +46,5 @@ To customize the Frame Rate, set the `applyFrameRate` constant to the desired va
 # Acknowledgements
 - p5.js library from [p5.js](https://p5js.org/)
 - Sound Effects from [Mixkit](https://mixkit.co/)
+
+<p align="right"><a href="#header">back to top</a></p>
