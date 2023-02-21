@@ -1,8 +1,9 @@
-var debug_anchor = true // Toggle for anchor points
-var debug_ui = false // Displays FPS Counter
+const debug_anchor = true // Toggle for anchor points
+const debug_ui = true // Displays FPS Counter
+const applyFrameRate = 60 // Set FPS
 
 var floorY
-var translation = 0;
+var translation
 
 var sound
 var ui
@@ -23,12 +24,14 @@ function setup() {
 	createCanvas(windowWidth, windowHeight - 32)
 
 	scene = new Scene()
+	scene.setup()
 	player = Character.setup()
 	console.log("Setup complete")
 }
 
 function resetGame() {
 	scene = new Scene()
+	scene.setup()
 	player = Character.setup()
 }
 

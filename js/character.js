@@ -35,18 +35,16 @@ class Character {
 	gravity = createVector(0, 1)
 
 	static setup() {
-		return new Character(
-			0,
-			floorY,
-			60)
+		return new Character(0, floorY, 60)
 	}
 
-	spawn() {		
+	spawn() {
 		translation = width * 0.5 - this.displayX
-		this.displayX +=  translation
+		this.displayX += translation
 	}
 
 	move() {
+		if(this.gameWon) return
 		if (this.plummeting) {
 			this.movement.add(this.gravity)
 			this.pos.add(this.movement)
@@ -84,7 +82,7 @@ class Character {
 	}
 
 	setCheckpoint(checkpoint) {
-		if(this.gameWon) return
+		if (this.gameWon) return
 		this.lastCheckpoint = checkpoint
 		sound.playSound("checkpoint")
 	}
@@ -95,12 +93,12 @@ class Character {
 	}
 
 	addScore(score = 1) {
-		if(this.gameWon) return
-		this.score+= score
+		if (this.gameWon) return
+		this.score += score
 	}
 
 	getDistance() {
-		if(this.gameWon) return this.distance
+		if (this.gameWon) return this.distance
 		this.distance = abs(this.pos.x - this.startX)
 		return this.distance
 	}
@@ -116,6 +114,7 @@ class Character {
 		}
 		else {
 			this.alive = false
+			console.log("As the Player ran out of lives, game is lost.")
 		}
 	}
 
@@ -128,6 +127,7 @@ class Character {
 	}
 
 	keyPressed(keyCode) {
+		if(this.gameWon) return
 		if ((keyCode == 32 || keyCode == 38)) {
 			this.jump()
 		}
@@ -140,6 +140,7 @@ class Character {
 	}
 
 	keyReleased(keyCode) {
+		if(this.gameWon) return
 		if (keyCode == 37) {
 			if (keyIsDown(39)) {
 				player.direction = "right"
@@ -288,7 +289,7 @@ class Character {
 				var eyeX = this.displayX + this.width / 3
 			}
 			var eyeY = this.pos.y - this.height + (this.width / 2)
-			noStroke();
+			noStroke()
 			stroke(this.color.body)
 			fill(this.color.eye)
 			ellipse(eyeX, eyeY, this.width / 9, this.width / 9)

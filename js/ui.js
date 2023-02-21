@@ -1,6 +1,6 @@
 class Ui {
     constructor() {
-        this.frameRate = 60
+        this.frameRate = applyFrameRate
         this.defaultFontColor = color(0, 0, 0)
         this.timer = 0
         this.background = color(0, 0, 0, 75)
@@ -15,27 +15,27 @@ class Ui {
 
     draw() {
         if (!player.alive) {
-            this.drawGameLost()
+            this.drawEndGame("You ran out of Lives!")
         }
 
         if (player.gameWon) {
-            this.drawGameWon()
+            this.drawEndGame("You won!")
         }
 
         textAlign(LEFT, TOP)
         fill(this.defaultFontColor)
         textSize(12)
 
-        text("Score: " + Math.floor(player.score),
+        text("Score: " + this.getScoreRatio(),
             20, 20)
 
         text("Time: " + this.getTimeInMinuteAndSeconds(),
-            96, 20)
+            128, 20)
 
         text("Lives: " + player.lives, 20, 40)
 
         text("Distance: " + Math.floor(player.getDistance()),
-            96, 40)
+            128, 40)
 
         if (player.alive && !player.gameWon) {
             if (frameRate() > 0) { // Prevents 1 / 0
@@ -57,39 +57,20 @@ class Ui {
         text("Loading...", width / 2, height / 2)
     }
 
-    drawGameLost() {
+    drawEndGame(content) {
         fill(this.background)
         rect(0, 0, width, height)
         fill(this.fontColour)
         textSize(128)
         textAlign(CENTER, CENTER)
-        text("You ran out of Lives!", width / 2, height / 2)
+        text(content, width / 2, height / 2)
         textSize(32)
         text("Press R to restart", width / 2, height / 2 + 80)
 
         textSize(24)
         text("Time: " + this.getTimeInMinuteAndSeconds(),
             width / 2, height / 2 + 128)
-        text("Score: " + Math.floor(player.score),
-            width / 2, height / 2 + 160)
-        text("Distance Travelled: " + Math.floor(player.getDistance()),
-            width / 2, height / 2 + 192)
-    }
-
-    drawGameWon() {
-        fill(this.background)
-        rect(0, 0, width, height)
-        fill(this.fontColour)
-        textSize(128)
-        textAlign(CENTER, CENTER)
-        text("You won!", width / 2, height / 2)
-        textSize(32)
-        text("Press R to restart", width / 2, height / 2 + 80)
-
-        textSize(24)
-        text("Time: " + this.getTimeInMinuteAndSeconds(),
-            width / 2, height / 2 + 128)
-        text("Score: " + Math.floor(player.score),
+        text("Score: " + this.getScoreRatio(),
             width / 2, height / 2 + 160)
         text("Distance Travelled: " + Math.floor(player.getDistance()),
             width / 2, height / 2 + 192)
@@ -102,9 +83,14 @@ class Ui {
         return (minutes == 0 ? "" : (minutes + "min ")) + seconds + "s"
     }
 
+    getScoreRatio() {
+        return `${Math.floor(player.score)} / ${Math.floor(scene.collectables.length)}`
+    }
+
     keyPressed(keyCode) {
         if ((keyCode == 82 && player.plummeting) || (keyCode == 82 && player.gameWon)) {
             resetGame()
+            this.timer = 0
         }
     }
 

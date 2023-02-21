@@ -8,13 +8,13 @@ class Tree {
         leafHeight = treeHeight - logHeight,
         leafWidth = random(leafHeight * 0.5, leafHeight * 0.7)
     ) {
-        this.x = x;
-        this.y = y;
-        this.height = treeHeight;
-        this.logHeight = logHeight;
-        this.logWidth = logWidth;
-        this.leafHeight = leafHeight;
-        this.leafWidth = leafWidth;
+        this.x = x
+        this.y = y
+        this.height = treeHeight
+        this.logHeight = logHeight
+        this.logWidth = logWidth
+        this.leafHeight = leafHeight
+        this.leafWidth = leafWidth
 
         this.logColor = random(this.logColor)
         this.leafColor1 = random(this.leafColor)
@@ -72,8 +72,8 @@ class Cloud {
         x,
         y = random(height * 0.1, height * 0.3)
     ) {
-        this.x = x;
-        this.y = y;
+        this.x = x
+        this.y = y
         this.width = 55
         this.speed = random(0.5, 1.5)
         this.color = random(this.cloudColor)
@@ -125,10 +125,10 @@ class Mountain {
         mountWidth = random(height * 0.4, height * 0.65),
         mountHeight = random(height * 0.25, height * 0.4)
     ) {
-        this.x = x;
-        this.y = y;
-        this.width = mountWidth;
-        this.height = mountHeight;
+        this.x = x
+        this.y = y
+        this.width = mountWidth
+        this.height = mountHeight
         this.color1 = random(this.mountainColor)
         this.color2 = random(this.mountainColor)
         this.color3 = random(this.mountainColor)
@@ -188,10 +188,10 @@ class Canyon {
         width = random(100, 150),
         canyonHeight = height - floorY
     ) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = canyonHeight;
+        this.x = x
+        this.y = y
+        this.width = width
+        this.height = canyonHeight
         this.color = random(this.canyonColor)
     }
 
@@ -201,12 +201,12 @@ class Canyon {
         canyonWidth = random(100, 150),
         canyonHeight = height - floorY
     ) {
-        // canyons.forEach((canyon) => {
-        //     // If canyon is too close to the other canyon, move it to the right
-        //     if (x + canyonWidth / 2 >= canyon.x - canyon.width / 2 && x - canyonWidth / 2 <= canyon.x + canyon.width / 2) {
-        //         x = canyon.x + canyon.width + canyonWidth
-        //     }
-        // })
+        scene.canyons.forEach((canyon) => {
+            // If canyon is too close to the other canyon, move it to the right
+            if (x + canyonWidth / 2 >= canyon.x - canyon.width / 2 && x - canyonWidth / 2 <= canyon.x + canyon.width / 2) {
+                x = canyon.x + canyon.width + canyonWidth
+            }
+        })
         return new Canyon(x, y, canyonWidth, canyonHeight)
     }
 
@@ -242,9 +242,9 @@ class Checkpoint {
         lastFlag = false,
         startingCheckpoint = false
     ) {
-        this.x = x;
-        this.y = y;
-        this.flagY = y;
+        this.x = x
+        this.y = y
+        this.flagY = y
         this.lastFlag = lastFlag
         this.startingCheckpoint = startingCheckpoint
         this.width = height * 0.2
@@ -252,6 +252,7 @@ class Checkpoint {
         this.flagHeight = this.height * 0.3
 
         this.color = lastFlag ? color(253, 216, 53) : color(229, 57, 53) // Yellow : Red
+        this.color = startingCheckpoint ? color(255,255,255) : this.color // Green : Red/Yellow
 
         this.reached = startingCheckpoint
         this.poleWidth = 5
@@ -337,9 +338,9 @@ class Collectable {
         size = 50,
         value = 1
     ) {
-        this.x = x;
-        this.y = y;
-        this.size = size;
+        this.x = x
+        this.y = y
+        this.size = size
         this.value = value
 
         this.collected = false
@@ -361,23 +362,23 @@ class Collectable {
             strokeWeight(this.size / 30)
             stroke(this.strokeColor) // Black
             fill(this.backgroundColor)
-            ellipse(this.x, this.y, this.size, this.size);
+            ellipse(this.x, this.y, this.size, this.size)
 
             fill(this.color)
-            beginShape();
-            vertex(this.x, this.y - this.size * 5 / 12);
-            vertex(this.x - this.size / 6, this.y - this.size / 12); // mid
-            vertex(this.x - this.size * 5 / 12, this.y - this.size / 12);
-            vertex(this.x - this.size * 13 / 60, this.y + this.size / 6); // mid
-            vertex(this.x - this.size * 13 / 60, this.y + this.size * 5 / 12);
-            vertex(this.x, this.y + this.size / 4); // mid
-            vertex(this.x + this.size * 13 / 60, this.y + this.size * 5 / 12);
-            vertex(this.x + this.size * 13 / 60, this.y + this.size / 6); // mid
-            vertex(this.x + this.size * 5 / 12, this.y - this.size / 12);
-            vertex(this.x + this.size / 6, this.y - this.size / 12); // mid
-            vertex(this.x, this.y - this.size * 5 / 12);
+            beginShape()
+            vertex(this.x, this.y - this.size * 5 / 12)
+            vertex(this.x - this.size / 6, this.y - this.size / 12) // mid
+            vertex(this.x - this.size * 5 / 12, this.y - this.size / 12)
+            vertex(this.x - this.size * 13 / 60, this.y + this.size / 6) // mid
+            vertex(this.x - this.size * 13 / 60, this.y + this.size * 5 / 12)
+            vertex(this.x, this.y + this.size / 4) // mid
+            vertex(this.x + this.size * 13 / 60, this.y + this.size * 5 / 12)
+            vertex(this.x + this.size * 13 / 60, this.y + this.size / 6) // mid
+            vertex(this.x + this.size * 5 / 12, this.y - this.size / 12)
+            vertex(this.x + this.size / 6, this.y - this.size / 12) // mid
+            vertex(this.x, this.y - this.size * 5 / 12)
 
-            endShape();
+            endShape()
         }
         if (debug_anchor) {
             fill(255, 0, 0)
