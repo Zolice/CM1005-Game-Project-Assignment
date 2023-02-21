@@ -1,13 +1,15 @@
-<div style="float: left; margin-right: 16px;">
-    <a href="https://github.com/Zolice/CM1005-Game-Project-Assignment">
-        <img src="./images/icon.png" alt="Logo" height="128">
-    </a>
-</div>
 <div>
-    <br>
-    <h1>CM1005 Game Project Assignment</h1>
-    <p>Project assigned by SIM GE - UOL for the purpose of CM1005 Introduction to Computer Programming I</p>
-    <br>
+    <div style="float: left; margin-right: 16px;">
+        <a href="https://github.com/Zolice/CM1005-Game-Project-Assignment">
+            <img src="./images/icon.png" alt="Logo" height="128">
+        </a>
+    </div>
+    <div>
+        <br>
+        <h1>CM1005 Game Project Assignment</h1>
+        <p>Project assigned by SIM GE - UOL for the purpose of CM1005 Introduction to Computer Programming I</p>
+        <br>
+    </div>
 </div>
 
 
