@@ -7,6 +7,7 @@ class ParticleEmitter {
         count,
         age = 100,
         spawnPerCycle = count,
+        spawnDelay = 10,
         randomColour = false,
         colour = [color(0, 0, 0)]
     ) {
@@ -20,19 +21,19 @@ class ParticleEmitter {
         this.randomColour = randomColour
         this.remainder = count
         this.spawnPerCycle = spawnPerCycle
+        this.spawnDelay = spawnDelay
 
         this.age = 0
 
         this.particles = []
         this.timer = 0
-        this.cycleGap = 5
     }
 
     spawnParticles() {
-        if (this.timer % this.cycleGap == 0) {
+        if (this.timer % this.spawnDelay == 0) {
 
-            let spawnCount = max(this.spawnPerCycle, this.remainder)
-            console.log(spawnCount)
+            let spawnCount = min(this.spawnPerCycle, this.remainder)
+
             var applyColour
 
             for (let i = 0; i < spawnCount; i++) {
@@ -42,12 +43,14 @@ class ParticleEmitter {
                 else {
                     applyColour = random(this.colour)
                 }
-                this.particles.push(new Particle(this.pos, this.size, applyColour, this.particleAge))
+                this.particles.push(new Particle(this.pos.x, this.pos.y, this.size, applyColour, this.particleAge))
             }
 
             this.remainder -= spawnCount
         }
+        this.timer += 1
     }
+
 
     updateParticles() {
         this.age += 1
@@ -72,16 +75,16 @@ class ParticleEmitter {
 
 class Particle {
     constructor(
-        pos,
+        x, y,
         size,
         colour = color(0, 0, 0),
         particleAge = 100,
-        direction = createVector(random(0, 1), random(0, 1))
+        direction = createVector(random(-1, 1), random(-1, 1))
     ) {
-        this.pos = pos
+        this.pos = createVector(x, y)
         this.size = size
         this.colour = colour
-        this.age = particleAge
+        this.particleAge = particleAge
         this.direction = direction
         this.age = 0
         this.alive = true
@@ -89,7 +92,7 @@ class Particle {
 
     update() {
         this.age += 1
-        if (this.age >= this.particleAge) {
+        if (this.age >= this.particleAge && this.alive) {
             this.alive = false
             return 1
         }

@@ -58,6 +58,7 @@ class Scene {
         this.canyons.forEach(canyon => canyon.checkCollision())
         this.clouds.forEach(cloud => cloud.move())
         this.checkpoints.forEach(checkpoint => checkpoint.checkCollision())
+        this.checkpoints.forEach(checkpoint => checkpoint.moveFlag())
     }
 
     draw() {

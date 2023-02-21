@@ -36,4 +36,5 @@ function soundSetup() {
     soundObject.addSound("plummeting", loadSound("assets/sound/plummeting.mp3", () => soundObject.soundLoaded()))
     soundObject.addSound("win", loadSound("assets/sound/win.mp3", () => soundObject.soundLoaded()))
     soundObject.addSound("point", loadSound("assets/sound/point.mp3", () => soundObject.soundLoaded()))
+    soundObject.addSound("fireworks", loadSound("assets/sound/fireworks.mp3", () => soundObject.soundLoaded()))
 }

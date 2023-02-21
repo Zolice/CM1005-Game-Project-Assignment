@@ -258,7 +258,7 @@ class Checkpoint {
         this.reached = false
         this.poleWidth = 5
         this.particleEmitter = []
-        console.log(this)
+        this.clusterSummoned = false
     }
 
     poleColor = color(189, 189, 189)
@@ -275,11 +275,36 @@ class Checkpoint {
                 player.setCheckpoint(this.x)
             }
 
-            this.particleEmitter.push(new ParticleEmitter(this.x, this.y, "spread", 10, 1000, 100, 50, true))
+            this.summonFireworks()
+        }
+    }
+
+    summonFireworks(cluster = false) {
+        if (!cluster) {
+            this.particleEmitter.push(new ParticleEmitter(this.x + 150, this.y - this.height, "spread", 3, 500, 100, 30, 10, true, []))
+            this.particleEmitter.push(new ParticleEmitter(this.x - 150, this.y - this.height, "spread", 3, 500, 100, 30, 10, true, []))
+            soundObject.playSound("fireworks")
+        }
+        else{
+            for(let i = this.x-500; i <= this.x+500; i+=200){
+                let y = this.flagY + random(-50, 100)
+                console.log(`Spawning fireworks at ${i}, ${y}`)
+                this.particleEmitter.push(new ParticleEmitter(i, y, "spread", 5, 400, 100, 25, 10, true, []))
+                // soundObject.playSound("fireworks")
+                this.clusterSummoned = true
+            }
         }
 
+
+    }
+
+    moveFlag() {
         if (this.reached) {
             this.flagY = max(this.flagY - 4, this.y - this.height + this.flagHeight)
+        }
+
+        if (this.flagY == this.y - this.height + this.flagHeight && !this.clusterSummoned) {
+            this.summonFireworks(true)
         }
     }
 
@@ -294,12 +319,12 @@ class Checkpoint {
             fill(255, 0, 0)
             ellipse(this.x, this.y, 5, 5)
         }
-        
+
         this.particleEmitter.forEach((emitter) => {
             emitter.spawnParticles()
             emitter.updateParticles()
             emitter.drawParticles()
-            if(!emitter.isAlive())
+            if (!emitter.isAlive())
                 this.particleEmitter.splice(this.particleEmitter.indexOf(emitter), 1)
         })
     }
