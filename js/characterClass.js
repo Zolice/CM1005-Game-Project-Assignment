@@ -1,7 +1,7 @@
 var player
 
 class Character {
-	constructor(x = width / 2, y = height * 0.7, charWidth) {
+	constructor(x = 0, y = height * 0.7, charWidth) {
 		this.pos = createVector(x, y)
 		this.displayX = x
 		this.height = charWidth * 1.3
@@ -9,12 +9,15 @@ class Character {
 		this.direction = "front"
 		this.plummeting = false
 		this.jumping = false
-		this.alive = false
+		this.alive = true
 		this.movement = createVector(0, 0)
 		this.score = 0
 		this.lives = 3
 		this.lastCheckpoint = x
 		this.gameWon = false
+
+		this.startX = x
+		this.distance = 0
 
 		this.spawn()
 	}
@@ -33,21 +36,21 @@ class Character {
 
 	static setup() {
 		return new Character(
-			width / 2,
+			0,
 			floorY,
 			60)
 	}
 
-	spawn() {
-		// translation = width * 0.5 - this.displayX
-		// this.displayX +=  translation
+	spawn() {		
+		translation = width * 0.5 - this.displayX
+		this.displayX +=  translation
 	}
 
 	move() {
 		if (this.plummeting) {
 			this.movement.add(this.gravity)
 			this.pos.add(this.movement)
-			if (this.pos.y >= height) {
+			if (this.pos.y >= height && this.alive) {
 				this.respawn()
 			}
 			return
@@ -76,18 +79,30 @@ class Character {
 
 	setPlummeting(plummeting) {
 		this.plummeting = plummeting
-		soundObject.playSound("plummeting")
-		console.log(`Player fell into a canyon! ${this.lives} lives remaining.`)
+		sound.playSound("plummeting")
+		console.log(`Player fell into a canyon! ${this.lives - 1} lives remaining.`)
 	}
 
 	setCheckpoint(checkpoint) {
+		if(this.gameWon) return
 		this.lastCheckpoint = checkpoint
-		soundObject.playSound("checkpoint")
+		sound.playSound("checkpoint")
 	}
 
 	setGameWon() {
 		this.gameWon = true
-		soundObject.playSound("win")
+		sound.playSound("win")
+	}
+
+	addScore(score = 1) {
+		if(this.gameWon) return
+		this.score+= score
+	}
+
+	getDistance() {
+		if(this.gameWon) return this.distance
+		this.distance = abs(this.pos.x - this.startX)
+		return this.distance
 	}
 
 	respawn() {
@@ -104,10 +119,17 @@ class Character {
 		}
 	}
 
-	keyPressed(keyCode) {
-		if ((keyCode == 32 || keyCode == 38) && !this.plummeting && !this.jumping) {
+	jump(yVelocity = -15) {
+		if (!this.plummeting && !this.jumping) {
+			this.movement = createVector(0, yVelocity)
 			this.jumping = true
-			this.movement = createVector(0, -15)
+			sound.playSound("jump")
+		}
+	}
+
+	keyPressed(keyCode) {
+		if ((keyCode == 32 || keyCode == 38)) {
+			this.jump()
 		}
 		if (keyCode == 37) {
 			this.direction = "left"

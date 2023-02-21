@@ -122,8 +122,8 @@ class Mountain {
     constructor(
         x,
         y,
-        mountWidth = random(height * 0.5, height * 0.7),
-        mountHeight = random(height * 0.3, height * 0.5)
+        mountWidth = random(height * 0.4, height * 0.65),
+        mountHeight = random(height * 0.25, height * 0.4)
     ) {
         this.x = x;
         this.y = y;
@@ -239,26 +239,24 @@ class Checkpoint {
     constructor(
         x,
         y = floorY,
-        lastFlag = false
+        lastFlag = false,
+        startingCheckpoint = false
     ) {
         this.x = x;
         this.y = y;
         this.flagY = y;
         this.lastFlag = lastFlag
+        this.startingCheckpoint = startingCheckpoint
         this.width = height * 0.2
         this.height = height * 0.45
         this.flagHeight = this.height * 0.3
 
-        if (lastFlag) {
-            this.width = height * 0.45
-            this.height = height * 0.35
-        }
         this.color = lastFlag ? color(253, 216, 53) : color(229, 57, 53) // Yellow : Red
 
-        this.reached = false
+        this.reached = startingCheckpoint
         this.poleWidth = 5
         this.particleEmitter = []
-        this.clusterSummoned = false
+        this.clusterSummoned = startingCheckpoint
     }
 
     poleColor = color(189, 189, 189)
@@ -283,14 +281,13 @@ class Checkpoint {
         if (!cluster) {
             this.particleEmitter.push(new ParticleEmitter(this.x + 150, this.y - this.height, "spread", 3, 500, 100, 30, 10, true, []))
             this.particleEmitter.push(new ParticleEmitter(this.x - 150, this.y - this.height, "spread", 3, 500, 100, 30, 10, true, []))
-            soundObject.playSound("fireworks")
+            sound.playSound("fireworks")
         }
-        else{
-            for(let i = this.x-500; i <= this.x+500; i+=200){
-                let y = this.flagY + random(-50, 100)
-                console.log(`Spawning fireworks at ${i}, ${y}`)
+        else {
+            for (let i = this.x - 500; i <= this.x + 500; i += 200) {
+                let y = this.y - this.height + random(-100, 150)
                 this.particleEmitter.push(new ParticleEmitter(i, y, "spread", 5, 400, 100, 25, 10, true, []))
-                // soundObject.playSound("fireworks")
+                // sound.playSound("fireworks")
                 this.clusterSummoned = true
             }
         }
@@ -319,7 +316,9 @@ class Checkpoint {
             fill(255, 0, 0)
             ellipse(this.x, this.y, 5, 5)
         }
+    }
 
+    drawFireworks() {
         this.particleEmitter.forEach((emitter) => {
             emitter.spawnParticles()
             emitter.updateParticles()
@@ -327,5 +326,62 @@ class Checkpoint {
             if (!emitter.isAlive())
                 this.particleEmitter.splice(this.particleEmitter.indexOf(emitter), 1)
         })
+
+    }
+}
+
+class Collectable {
+    constructor(
+        x,
+        y = floorY,
+        size = 50,
+        value = 1
+    ) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.value = value
+
+        this.collected = false
+        this.color = color(255, 235, 59)
+        this.backgroundColor = color(255, 255, 255)
+        this.strokeColor = color(0, 0, 0)
+    }
+
+    checkCollision() {
+        if (dist(player.pos.x, player.pos.y, this.x, this.y) < this.size && !this.collected) {
+            this.collected = true
+            player.addScore(this.value)
+            sound.playSound("point")
+        }
+    }
+
+    draw() {
+        if (this.collected == false) {
+            strokeWeight(this.size / 30)
+            stroke(this.strokeColor) // Black
+            fill(this.backgroundColor)
+            ellipse(this.x, this.y, this.size, this.size);
+
+            fill(this.color)
+            beginShape();
+            vertex(this.x, this.y - this.size * 5 / 12);
+            vertex(this.x - this.size / 6, this.y - this.size / 12); // mid
+            vertex(this.x - this.size * 5 / 12, this.y - this.size / 12);
+            vertex(this.x - this.size * 13 / 60, this.y + this.size / 6); // mid
+            vertex(this.x - this.size * 13 / 60, this.y + this.size * 5 / 12);
+            vertex(this.x, this.y + this.size / 4); // mid
+            vertex(this.x + this.size * 13 / 60, this.y + this.size * 5 / 12);
+            vertex(this.x + this.size * 13 / 60, this.y + this.size / 6); // mid
+            vertex(this.x + this.size * 5 / 12, this.y - this.size / 12);
+            vertex(this.x + this.size / 6, this.y - this.size / 12); // mid
+            vertex(this.x, this.y - this.size * 5 / 12);
+
+            endShape();
+        }
+        if (debug_anchor) {
+            fill(255, 0, 0)
+            ellipse(this.x, this.y, 5, 5)
+        }
     }
 }
