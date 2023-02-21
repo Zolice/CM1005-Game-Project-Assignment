@@ -1,277 +1,387 @@
-var treeLeafColorScheme = [
-    [27, 94, 32],
-    [46, 125, 50],
-    [56, 142, 60],
-    [130, 119, 23],
-    [51, 105, 30],
-    [85, 139, 47],
-    [104, 159, 56],
-    [76, 175, 80],
-    [67, 160, 71]
-]
+class Tree {
+    constructor(
+        x,
+        y = floorY,
+        treeHeight = random(width * 0.1, width * 0.2),
+        logHeight = random(treeHeight * 0.3, treeHeight * 0.5),
+        logWidth = random(logHeight * 0.15, logHeight * 0.2),
+        leafHeight = treeHeight - logHeight,
+        leafWidth = random(leafHeight * 0.5, leafHeight * 0.7)
+    ) {
+        this.x = x;
+        this.y = y;
+        this.height = treeHeight;
+        this.logHeight = logHeight;
+        this.logWidth = logWidth;
+        this.leafHeight = leafHeight;
+        this.leafWidth = leafWidth;
 
-var treeLogColorScheme = [
-    [62, 39, 35],
-    [78, 52, 46],
-    [93, 64, 55],
-    [109, 76, 65]
-]
-
-var cloudColorScheme = [
-    [238, 238, 238],
-    [245, 245, 245],
-    [224, 224, 224],
-    [189, 189, 189],
-    [158, 158, 158],
-    [141, 110, 99],
-    [176, 190, 197],
-    [120, 144, 156],
-    [236, 239, 241]
-]
-
-var mountainColorScheme = [
-    [62, 39, 35],
-    [78, 52, 46],
-    [93, 64, 55],
-    [109, 76, 65],
-    [121, 85, 72],
-    [141, 110, 99],
-    [66, 66, 66],
-    [97, 97, 97],
-    [117, 117, 117]
-]
-
-var mountainSnowColorScheme = [
-    [238, 238, 238],
-    [245, 245, 245],
-    [224, 224, 224],
-    [189, 189, 189],
-    [158, 158, 158],
-    [141, 110, 99],
-    [176, 190, 197],
-    [120, 144, 156],
-    [236, 239, 241]
-]
-
-var canyonColorScheme = [
-    [38, 50, 56],
-    [33, 33, 33],
-    [62, 39, 35],
-    [55, 71, 79],
-    [66, 66, 66],
-    [78, 52, 46]
-]
-
-function createTree(x, y, logHeight, logWidth, leafHeight, leafWidth) {
-    var treeVar = {
-        x: x,
-        y: y,
-        logHeight: logHeight,
-        logWidth: logWidth,
-        leafHeight: leafHeight,
-        leafWidth: leafWidth,
-        logColor: random(treeLogColorScheme),
-        leafColor1: random(treeLeafColorScheme),
-        leafColor2: random(treeLeafColorScheme),
-        leafColor3: random(treeLeafColorScheme)
+        this.logColor = random(this.logColor)
+        this.leafColor1 = random(this.leafColor)
+        this.leafColor2 = random(this.leafColor)
+        this.leafColor3 = random(this.leafColor)
     }
-    return treeVar
-}
 
-function drawTree(treeXValue, treeVar) {
-    // Draw the Log
-    noStroke()
-    fill(treeVar.logColor)
-    rect(treeXValue - treeVar.logWidth / 2, treeVar.y, treeVar.logWidth, -treeVar.logHeight)
-    triangle(treeXValue - treeVar.logWidth * 3 / 4, treeVar.y, treeXValue + treeVar.logWidth * 3 / 4, treeVar.y, treeXValue, treeVar.y - treeVar.leafHeight)
-    triangle(treeXValue - treeVar.logWidth, treeVar.y, treeXValue + treeVar.logWidth, treeVar.y, treeXValue, treeVar.y - treeVar.leafHeight / 3)
+    logColor = [
+        color(62, 39, 35),
+        color(78, 52, 46),
+        color(93, 64, 55),
+        color(109, 76, 65)
+    ]
 
-    // Draw the Leaves
-    fill(treeVar.leafColor1)
-    triangle(treeXValue - treeVar.leafWidth / 2, treeVar.y - treeVar.logHeight, treeXValue + treeVar.leafWidth / 2, treeVar.y - treeVar.logHeight, treeXValue, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 3 / 5)
+    leafColor = [
+        color(27, 94, 32),
+        color(46, 125, 50),
+        color(56, 142, 60),
+        color(130, 119, 23),
+        color(51, 105, 30),
+        color(85, 139, 47),
+        color(104, 159, 56),
+        color(76, 175, 80),
+        color(67, 160, 71)
+    ]
 
-    fill(treeVar.leafColor2)
-    triangle(treeXValue - treeVar.leafWidth / 3, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 1.5 / 5, treeXValue + treeVar.leafWidth / 3, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 1.5 / 5, treeXValue, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 4 / 5)
+    draw() {
+        // Draw the Log
+        noStroke()
+        fill(this.logColor)
+        rect(this.x - this.logWidth / 2, this.y, this.logWidth, -this.logHeight)
+        triangle(this.x - this.logWidth * 3 / 4, this.y, this.x + this.logWidth * 3 / 4, this.y, this.x, this.y - this.leafHeight)
+        triangle(this.x - this.logWidth, this.y, this.x + this.logWidth, this.y, this.x, this.y - this.leafHeight / 3)
 
-    fill(treeVar.leafColor3)
-    triangle(treeXValue - treeVar.leafWidth / 5, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 3 / 5, treeXValue + treeVar.leafWidth / 5, treeVar.y - treeVar.logHeight - treeVar.leafHeight * 3 / 5, treeXValue, treeVar.y - treeVar.logHeight - treeVar.leafHeight)
+        // Draw the Leaves
+        fill(this.leafColor1)
+        triangle(this.x - this.leafWidth / 2, this.y - this.logHeight, this.x + this.leafWidth / 2, this.y - this.logHeight, this.x, this.y - this.logHeight - this.leafHeight * 3 / 5)
 
-    if (debug_anchor) {
-        fill(255, 0, 0)
-        ellipse(treeXValue, treeVar.y, 5, 5)
-    }
-}
+        fill(this.leafColor2)
+        triangle(this.x - this.leafWidth / 3, this.y - this.logHeight - this.leafHeight * 1.5 / 5, this.x + this.leafWidth / 3, this.y - this.logHeight - this.leafHeight * 1.5 / 5, this.x, this.y - this.logHeight - this.leafHeight * 4 / 5)
 
-function createCloud(x, y, minX, maxX) {
-    var cloudVar = {
-        x: x,
-        y: y,
-        minX: minX,
-        maxX: maxX,
-        xSpeed: random(0.5, 1.5),
-        cloudColor: random(cloudColorScheme),
-        width: 55
-    }
-    return cloudVar
-}
+        fill(this.leafColor3)
+        triangle(this.x - this.leafWidth / 5, this.y - this.logHeight - this.leafHeight * 3 / 5, this.x + this.leafWidth / 5, this.y - this.logHeight - this.leafHeight * 3 / 5, this.x, this.y - this.logHeight - this.leafHeight)
 
-function drawClouds(cloudVar) {
-    moveCloud(cloudVar)
-
-    fill(cloudVar.cloudColor)
-    noStroke()
-    ellipse(cloudVar.x, cloudVar.y, 70, 70) // Center
-
-    ellipse(cloudVar.x - 30, cloudVar.y, 50, 50)
-    ellipse(cloudVar.x, cloudVar.y - 20, 50, 50)
-    ellipse(cloudVar.x + 30, cloudVar.y, 50, 50)
-    ellipse(cloudVar.x - 15, cloudVar.y + 25, 35, 30)
-    ellipse(cloudVar.x + 15, cloudVar.y + 25, 35, 30)
-
-    if (debug_anchor) {
-        fill(255, 0, 0)
-        ellipse(cloudVar.x, cloudVar.y, 5, 5)
-    }
-}
-
-function moveCloud(cloudVar) {
-    cloudVar.x += cloudVar.xSpeed
-
-    // Recreate the cloud if cloud is off the screen
-    if (cloudVar.x - cloudVar.width >= cloudVar.maxX) {
-        cloudVar.x = cloudVar.minX - cloudVar.width
-        cloudVar.xSpeed = random(0.5, 1.5)
-        cloudVar.cloudColor = random(cloudColorScheme)
-    }
-}
-
-function createMountain(x, y, width, height) {
-    var mountainVar = {
-        x: x,
-        y: y,
-        width: width,
-        height: height,
-        mountainColor1: random(mountainColorScheme),
-        mountainColor2: random(mountainColorScheme),
-        mountainColor3: random(mountainColorScheme),
-        snowColor: random(mountainSnowColorScheme)
-    }
-    return mountainVar
-}
-
-function drawMountain(mountainVar) {
-    fill(mountainVar.mountainColor1)
-    noStroke()
-    triangle(mountainVar.x - mountainVar.width * 1.5 / 5, mountainVar.y, mountainVar.x + mountainVar.width * 1.5 / 5, mountainVar.y, mountainVar.x, mountainVar.y - mountainVar.height)
-    fill(mountainVar.snowColor)
-    triangle(mountainVar.x - mountainVar.width * 0.24, mountainVar.y - mountainVar.height * 1 / 5, mountainVar.x + mountainVar.width * 0.06, mountainVar.y - mountainVar.height * 4 / 5, mountainVar.x, mountainVar.y - mountainVar.height)
-
-    fill(mountainVar.mountainColor2)
-    noStroke()
-    triangle(mountainVar.x - mountainVar.width * 2.5 / 5, mountainVar.y, mountainVar.x + mountainVar.width * 0.5 / 5, mountainVar.y, mountainVar.x - mountainVar.width * 1 / 5, mountainVar.y - mountainVar.height * 0.8)
-
-    fill(mountainVar.mountainColor3)
-    noStroke()
-    triangle(mountainVar.x - mountainVar.width * 0.5 / 5, mountainVar.y, mountainVar.x + mountainVar.width * 2.5 / 5, mountainVar.y, mountainVar.x + mountainVar.width * 1 / 5, mountainVar.y - mountainVar.height * 0.8)
-
-    if (debug_anchor) {
-        fill(255, 0, 0)
-        ellipse(mountainVar.x, mountainVar.y, 5, 5)
-    }
-}
-
-function createCanyon(x, y, width) {
-
-    var canyonVar = {
-        x: checkValidCanyonX(x, width),
-        y: y,
-        width: width,
-        height: height - floorY,
-        canyonColor: random(canyonColorScheme)
-    }
-    return canyonVar
-}
-
-function checkValidCanyonX(x, width) {
-    // Check if canyon is too close to the other canyons
-    canyons.forEach((canyon) => {
-        // If canyon is too close to the other canyon, move it to the right
-        if (x + width / 2 >= canyon.x - canyon.width / 2 && x - width / 2 <= canyon.x + canyon.width / 2) {
-            x = canyon.x + canyon.width + width
-        }
-    })
-    return x
-}
-
-function drawCanyon(canyonVar) {
-    canyonCheck(canyonVar)
-    fill(canyonVar.canyonColor)
-    noStroke()
-    rect(canyonVar.x - canyonVar.width / 2, canyonVar.y, canyonVar.width, canyonVar.height)
-    if (debug_anchor) {
-        fill(255, 0, 0)
-        ellipse(canyonVar.x, canyonVar.y, 5, 5)
-    }
-}
-
-function canyonCheck(canyonVar) {
-    // Check if Player is in the canyon
-    if (player.x + player.width / 2 <= canyonVar.x + canyonVar.width / 2 && player.x - player.width / 2 >= canyonVar.x - canyonVar.width / 2 && player.y == floorY) {
-        player.plummeting = true
-        soundObject.playSound("plummeting")
-    }
-}
-
-function createFlag(x, y, height, lastFlag) {
-    var flagVar = {
-        x: x,
-        y: y,
-        flagWidth: height * 0.35,
-        flagHeight: height * 0.25,
-        flagY: y,
-        flagColor: lastFlag ? [253, 216, 53] : [229, 57, 53], // Yellow : Red
-        flagPoleColor: [189, 189, 189], // Silver
-        poleWidth: 5,
-        height: height,
-        flagReached: false,
-        lastFlag: lastFlag
-    }
-    return flagVar
-}
-
-function drawFlag(flagVar) {
-    flagCheck(flagVar)
-    fill(flagVar.flagColor)
-    noStroke()
-    // rect(flagVar.x, flagVar.flagY, flagVar.flagWidth, -flagVar.flagHeight)
-    triangle(flagVar.x, flagVar.flagY, flagVar.x + flagVar.flagWidth, flagVar.flagY - flagVar.flagHeight * 0.5, flagVar.x, flagVar.flagY - flagVar.flagHeight)
-    fill(flagVar.flagPoleColor)
-    rect(flagVar.x - flagVar.poleWidth * 0.5, flagVar.y, flagVar.poleWidth, -flagVar.height)
-
-    if (debug_anchor) {
-        fill(255, 0, 0)
-        ellipse(flagVar.x, flagVar.y, 5, 5)
-    }
-}
-
-function flagCheck(flagVar) {
-    // Check if Player is on the flag
-
-    if (!flagVar.flagReached && abs(player.x - flagVar.x) <= flagVar.poleWidth * 2) {
-        player.lastCheckpoint = flagVar.x
-        flagVar.flagReached = true
-        flagVar.flagColor = flagVar.lastFlag ? [253, 216, 53] : [67, 160, 71]
-        if(flagVar.lastFlag){
-            player.gameWon = true
-            soundObject.playSound("win")
-        }
-        else{
-            soundObject.playSound("checkpoint")
+        if (debug_anchor) {
+            fill(255, 0, 0)
+            ellipse(this.x, this.y, 5, 5)
         }
     }
 
-    // Move the flag up
-    if (flagVar.flagReached) {
-        flagVar.flagY = max(flagVar.flagY - 5, flagVar.y - flagVar.height + flagVar.flagHeight)
+}
+
+class Cloud {
+    constructor(
+        x,
+        y = random(height * 0.1, height * 0.3)
+    ) {
+        this.x = x;
+        this.y = y;
+        this.width = 55
+        this.speed = random(0.5, 1.5)
+        this.color = random(this.cloudColor)
+    }
+
+    cloudColor = [
+        color(238, 238, 238),
+        color(245, 245, 245),
+        color(224, 224, 224),
+        color(189, 189, 189),
+        color(158, 158, 158),
+        color(141, 110, 99),
+        color(176, 190, 197),
+        color(120, 144, 156),
+        color(236, 239, 241)
+    ]
+    move() {
+
+        this.x += this.speed
+        if (this.x - this.width >= scene.chunkEnd) {
+            this.x = scene.chunkStart - this.width
+            this.speed = random(0.5, 1.5)
+            this.color = random(this.cloudColor)
+        }
+    }
+
+    draw() {
+        fill(this.color)
+        noStroke()
+        ellipse(this.x, this.y, 70, 70) // Center
+
+        ellipse(this.x - 30, this.y, 50, 50)
+        ellipse(this.x, this.y - 20, 50, 50)
+        ellipse(this.x + 30, this.y, 50, 50)
+        ellipse(this.x - 15, this.y + 25, 35, 30)
+        ellipse(this.x + 15, this.y + 25, 35, 30)
+
+        if (debug_anchor) {
+            fill(255, 0, 0)
+            ellipse(this.x, this.y, 5, 5)
+        }
+    }
+}
+
+class Mountain {
+    constructor(
+        x,
+        y,
+        mountWidth = random(height * 0.4, height * 0.65),
+        mountHeight = random(height * 0.25, height * 0.4)
+    ) {
+        this.x = x;
+        this.y = y;
+        this.width = mountWidth;
+        this.height = mountHeight;
+        this.color1 = random(this.mountainColor)
+        this.color2 = random(this.mountainColor)
+        this.color3 = random(this.mountainColor)
+        this.snowColor = random(this.snowColor)
+    }
+
+    mountainColor = [
+        color(62, 39, 35),
+        color(78, 52, 46),
+        color(93, 64, 55),
+        color(109, 76, 65),
+        color(121, 85, 72),
+        color(141, 110, 99),
+        color(66, 66, 66),
+        color(97, 97, 97),
+        color(117, 117, 117)
+    ]
+
+    snowColor = [
+        color(238, 238, 238),
+        color(245, 245, 245),
+        color(224, 224, 224),
+        color(189, 189, 189),
+        color(158, 158, 158),
+        color(141, 110, 99),
+        color(176, 190, 197),
+        color(120, 144, 156),
+        color(236, 239, 241)
+    ]
+
+    draw() {
+        fill(this.color1)
+        noStroke()
+        triangle(this.x - this.width * 1.5 / 5, this.y, this.x + this.width * 1.5 / 5, this.y, this.x, this.y - this.height)
+        fill(this.snowColor)
+        triangle(this.x - this.width * 0.24, this.y - this.height * 1 / 5, this.x + this.width * 0.06, this.y - this.height * 4 / 5, this.x, this.y - this.height)
+
+        fill(this.color2)
+        noStroke()
+        triangle(this.x - this.width * 2.5 / 5, this.y, this.x + this.width * 0.5 / 5, this.y, this.x - this.width * 1 / 5, this.y - this.height * 0.8)
+
+        fill(this.color3)
+        noStroke()
+        triangle(this.x - this.width * 0.5 / 5, this.y, this.x + this.width * 2.5 / 5, this.y, this.x + this.width * 1 / 5, this.y - this.height * 0.8)
+
+        if (debug_anchor) {
+            fill(255, 0, 0)
+            ellipse(this.x, this.y, 5, 5)
+        }
+    }
+}
+
+class Canyon {
+    constructor(
+        x,
+        y = floorY,
+        width = random(100, 150),
+        canyonHeight = height - floorY
+    ) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = canyonHeight;
+        this.color = random(this.canyonColor)
+    }
+
+    static setup(
+        x,
+        y = floorY,
+        canyonWidth = random(100, 150),
+        canyonHeight = height - floorY
+    ) {
+        // canyons.forEach((canyon) => {
+        //     // If canyon is too close to the other canyon, move it to the right
+        //     if (x + canyonWidth / 2 >= canyon.x - canyon.width / 2 && x - canyonWidth / 2 <= canyon.x + canyon.width / 2) {
+        //         x = canyon.x + canyon.width + canyonWidth
+        //     }
+        // })
+        return new Canyon(x, y, canyonWidth, canyonHeight)
+    }
+
+    canyonColor = [
+        color(38, 50, 56),
+        color(33, 33, 33),
+        color(62, 39, 35),
+        color(55, 71, 79),
+        color(66, 66, 66),
+    ]
+
+    checkCollision() {
+        if (player.pos.x + player.width / 2 <= this.x + this.width / 2 && player.pos.x - player.width / 2 >= this.x - this.width / 2 && player.pos.y == floorY) {
+            player.setPlummeting(true)
+        }
+    }
+
+    draw() {
+        fill(this.color)
+        noStroke()
+        rect(this.x - this.width / 2, this.y, this.width, this.height)
+        if (debug_anchor) {
+            fill(255, 0, 0)
+            ellipse(this.x, this.y, 5, 5)
+        }
+    }
+}
+
+class Checkpoint {
+    constructor(
+        x,
+        y = floorY,
+        lastFlag = false,
+        startingCheckpoint = false
+    ) {
+        this.x = x;
+        this.y = y;
+        this.flagY = y;
+        this.lastFlag = lastFlag
+        this.startingCheckpoint = startingCheckpoint
+        this.width = height * 0.2
+        this.height = height * 0.45
+        this.flagHeight = this.height * 0.3
+
+        this.color = lastFlag ? color(253, 216, 53) : color(229, 57, 53) // Yellow : Red
+
+        this.reached = startingCheckpoint
+        this.poleWidth = 5
+        this.particleEmitter = []
+        this.clusterSummoned = startingCheckpoint
+    }
+
+    poleColor = color(189, 189, 189)
+
+    checkCollision() {
+        if (!this.reached && abs(player.pos.x - this.x) <= this.poleWidth * 2) {
+            this.reached = true
+
+            if (this.lastFlag) {
+                player.setGameWon()
+                this.color = color(67, 160, 71)
+            }
+            else {
+                player.setCheckpoint(this.x)
+            }
+
+            this.summonFireworks()
+        }
+    }
+
+    summonFireworks(cluster = false) {
+        if (!cluster) {
+            this.particleEmitter.push(new ParticleEmitter(this.x + 150, this.y - this.height, "spread", 3, 500, 100, 30, 10, true, []))
+            this.particleEmitter.push(new ParticleEmitter(this.x - 150, this.y - this.height, "spread", 3, 500, 100, 30, 10, true, []))
+            sound.playSound("fireworks")
+        }
+        else {
+            for (let i = this.x - 500; i <= this.x + 500; i += 200) {
+                let y = this.y - this.height + random(-100, 150)
+                this.particleEmitter.push(new ParticleEmitter(i, y, "spread", 5, 400, 100, 25, 10, true, []))
+                // sound.playSound("fireworks")
+                this.clusterSummoned = true
+            }
+        }
+
+
+    }
+
+    moveFlag() {
+        if (this.reached) {
+            this.flagY = max(this.flagY - 4, this.y - this.height + this.flagHeight)
+        }
+
+        if (this.flagY == this.y - this.height + this.flagHeight && !this.clusterSummoned) {
+            this.summonFireworks(true)
+        }
+    }
+
+    draw() {
+        fill(this.color)
+        noStroke()
+        triangle(this.x, this.flagY, this.x + this.width, this.flagY - this.flagHeight * 0.5, this.x, this.flagY - this.flagHeight)
+        fill(this.poleColor)
+        rect(this.x - this.poleWidth * 0.5, this.y, this.poleWidth, -this.height)
+
+        if (debug_anchor) {
+            fill(255, 0, 0)
+            ellipse(this.x, this.y, 5, 5)
+        }
+    }
+
+    drawFireworks() {
+        this.particleEmitter.forEach((emitter) => {
+            emitter.spawnParticles()
+            emitter.updateParticles()
+            emitter.drawParticles()
+            if (!emitter.isAlive())
+                this.particleEmitter.splice(this.particleEmitter.indexOf(emitter), 1)
+        })
+
+    }
+}
+
+class Collectable {
+    constructor(
+        x,
+        y = floorY,
+        size = 50,
+        value = 1
+    ) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.value = value
+
+        this.collected = false
+        this.color = color(255, 235, 59)
+        this.backgroundColor = color(255, 255, 255)
+        this.strokeColor = color(0, 0, 0)
+    }
+
+    checkCollision() {
+        if (dist(player.pos.x, player.pos.y, this.x, this.y) < this.size && !this.collected) {
+            this.collected = true
+            player.addScore(this.value)
+            sound.playSound("point")
+        }
+    }
+
+    draw() {
+        if (this.collected == false) {
+            strokeWeight(this.size / 30)
+            stroke(this.strokeColor) // Black
+            fill(this.backgroundColor)
+            ellipse(this.x, this.y, this.size, this.size);
+
+            fill(this.color)
+            beginShape();
+            vertex(this.x, this.y - this.size * 5 / 12);
+            vertex(this.x - this.size / 6, this.y - this.size / 12); // mid
+            vertex(this.x - this.size * 5 / 12, this.y - this.size / 12);
+            vertex(this.x - this.size * 13 / 60, this.y + this.size / 6); // mid
+            vertex(this.x - this.size * 13 / 60, this.y + this.size * 5 / 12);
+            vertex(this.x, this.y + this.size / 4); // mid
+            vertex(this.x + this.size * 13 / 60, this.y + this.size * 5 / 12);
+            vertex(this.x + this.size * 13 / 60, this.y + this.size / 6); // mid
+            vertex(this.x + this.size * 5 / 12, this.y - this.size / 12);
+            vertex(this.x + this.size / 6, this.y - this.size / 12); // mid
+            vertex(this.x, this.y - this.size * 5 / 12);
+
+            endShape();
+        }
+        if (debug_anchor) {
+            fill(255, 0, 0)
+            ellipse(this.x, this.y, 5, 5)
+        }
     }
 }

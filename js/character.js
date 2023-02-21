@@ -1,346 +1,354 @@
 var player
 
-var characterColorScheme = {
-	body: [26, 35, 126],
-	arm: [9, 14, 67],
-	eyeSocket: [255, 255, 255],
-	eye: [0, 0, 0],
-	nose: [245, 124, 0],
-	leg: [245, 127, 23]
-}
+class Character {
+	constructor(x = 0, y = height * 0.7, charWidth) {
+		this.pos = createVector(x, y)
+		this.displayX = x
+		this.height = charWidth * 1.3
+		this.width = charWidth
+		this.direction = "front"
+		this.plummeting = false
+		this.jumping = false
+		this.alive = true
+		this.movement = createVector(0, 0)
+		this.score = 0
+		this.lives = 3
+		this.lastCheckpoint = x
+		this.gameWon = false
 
-function characterSetup() {
-	player = createCharacter(random(0, width * 0.3), floorY, 60, "front", false, false, true)
-	translation = width * 0.5 - player.displayX
-	player.displayX += translation
-}
+		this.startX = x
+		this.distance = 0
 
-function characterDraw() {
-
-	moveCharacter(player)
-	drawCharacter(player)
-}
-
-function createCharacter(x, y, width, direction, plummeting, jumping, alive) {
-	var characterVar = {
-		x: x,
-		y: y,
-		displayX: x,
-		displayY: y,
-		height: 0, // height actually scales off the width
-		width: width,
-		direction: direction,
-		plummeting: plummeting,
-		jumping: jumping,
-		alive: alive,
-		xSpeed: 0,
-		ySpeed: 0,
-		score: 0,
-		lives: 3,
-		lastCheckpoint: x,
-		gameWon: false
+		this.spawn()
 	}
-	return characterVar
-}
 
-function characterKeyPressed(keyCode) {
-	if (keyCode == 37) {
-		player.direction = "left"
-		player.xSpeed = -10
-	}
-	else if (keyCode == 39) {
-		player.direction = "right"
-		player.xSpeed = 10
-	}
-	if ((keyCode == 38 || keyCode == 32) && !player.jumping) {
-		player.jumping = true
-		player.ySpeed = -15
-		soundObject.playSound("jump")
-	}
-}
+	color = {
+		body: color(26, 35, 126),
+		arm: color(9, 14, 67),
+		eyeSocket: color(255, 255, 255),
+		eye: color(0, 0, 0),
+		nose: color(245, 124, 0),
+		leg: color(245, 127, 23)
 
-function characterKeyReleased() {
-	if (keyCode == 37) {
-		if (keyIsDown(39)) {
-			player.xSpeed = 10
+	}
 
-			player.direction = "right"
+	gravity = createVector(0, 1)
+
+	static setup() {
+		return new Character(
+			0,
+			floorY,
+			60)
+	}
+
+	spawn() {		
+		translation = width * 0.5 - this.displayX
+		this.displayX +=  translation
+	}
+
+	move() {
+		if (this.plummeting) {
+			this.movement.add(this.gravity)
+			this.pos.add(this.movement)
+			if (this.pos.y >= height && this.alive) {
+				this.respawn()
+			}
+			return
+		}
+
+		this.movement.add(this.gravity)
+		this.pos.add(this.movement)
+
+		if (this.pos.y >= floorY) {
+			this.pos.y = floorY
+			this.movement.y = 0
+			this.jumping = false
+		}
+
+		switch (this.direction) {
+			case "left":
+				this.pos.x -= 10
+				translation += 10
+				break
+			case "right":
+				this.pos.x += 10
+				translation -= 10
+			default: break
+		}
+	}
+
+	setPlummeting(plummeting) {
+		this.plummeting = plummeting
+		sound.playSound("plummeting")
+		console.log(`Player fell into a canyon! ${this.lives - 1} lives remaining.`)
+	}
+
+	setCheckpoint(checkpoint) {
+		if(this.gameWon) return
+		this.lastCheckpoint = checkpoint
+		sound.playSound("checkpoint")
+	}
+
+	setGameWon() {
+		this.gameWon = true
+		sound.playSound("win")
+	}
+
+	addScore(score = 1) {
+		if(this.gameWon) return
+		this.score+= score
+	}
+
+	getDistance() {
+		if(this.gameWon) return this.distance
+		this.distance = abs(this.pos.x - this.startX)
+		return this.distance
+	}
+
+	respawn() {
+		if (this.lives > 1) {
+			this.lives--
+			translation += this.pos.x - this.lastCheckpoint
+
+			this.pos.x = this.lastCheckpoint
+			this.pos.y = floorY
+			this.plummeting = false
 		}
 		else {
-			player.xSpeed = 0
-
-			player.direction = "front"
+			this.alive = false
 		}
 	}
-	else if (keyCode == 39) {
-		if (keyIsDown(37)) {
-			player.xSpeed = -10
-			player.direction = "left"
-		}
-		else {
-			player.xSpeed = 0
 
-			player.direction = "front"
+	jump(yVelocity = -15) {
+		if (!this.plummeting && !this.jumping) {
+			this.movement = createVector(0, yVelocity)
+			this.jumping = true
+			sound.playSound("jump")
 		}
 	}
-}
 
-function moveCharacter(characterVar) {
-	// Plummeting
-	if (characterVar.plummeting) {
-		characterVar.jumping = true
-		characterVar.y += 10
-		characterVar.displayY += 10
-
-		// Reset Character
-		resetCharacter(characterVar)
-	} else {
-		// Move Character Left and Right
-		characterVar.x += characterVar.xSpeed
-		characterVar.displayX += characterVar.xSpeed
-
-		// if ((characterVar.displayX - width * 0.5) < 10 && (characterVar.displayX - width * 0.5) > -10) {
-		translation -= characterVar.displayX - width * 0.5
-		characterVar.displayX = width * 0.5
-		// }
-		// else if (characterVar.displayX > width * 0.5) {
-		// 	translation -= 10
-		// 	characterVar.displayX -= 10
-		// }
-		// else if (characterVar.displayX < width * 0.5) {
-		// 	translation += 10
-		// 	characterVar.displayX += 10
-		// }
-
-		// Handle ySpeed
-		if (characterVar.jumping) {
-			characterVar.ySpeed += 1 // Gravity
-
-			characterVar.y += characterVar.ySpeed
-			characterVar.displayY += characterVar.ySpeed
+	keyPressed(keyCode) {
+		if ((keyCode == 32 || keyCode == 38)) {
+			this.jump()
 		}
+		if (keyCode == 37) {
+			this.direction = "left"
+		}
+		if (keyCode == 39) {
+			this.direction = "right"
+		}
+	}
 
-		// Gravity
-		if (characterVar.jumping) {
-			if (characterVar.y > floorY) {
-				characterVar.jumping = false
-				characterVar.y = floorY
-				characterVar.displayY = floorY
+	keyReleased(keyCode) {
+		if (keyCode == 37) {
+			if (keyIsDown(39)) {
+				player.direction = "right"
+			}
+			else {
+				player.direction = "front"
 			}
 		}
-	}}
-
-function resetCharacter(characterVar) {
-	if (characterVar.y >= height && characterVar.alive) {
-		// Character hit the floor
-		// Bring Character to safe checkpoint
-		characterVar.lives -= 1
-		if (characterVar.lives <= 0) {
-			characterVar.alive = false
-		}
-		else {
-			var checkpointLocation = characterVar.x - characterVar.lastCheckpoint
-			characterVar.x -= checkpointLocation
-			characterVar.displayX -= checkpointLocation
-			characterVar.y = floorY
-			characterVar.displayY = floorY
-			characterVar.ySpeed = -5
-
-			characterVar.plummeting = false
-		}
-	}
-}
-
-function drawCharacter(characterVar) {
-	// Calculate Height
-	characterVar.height = characterVar.width * 1.3
-
-	// Draw legs
-	stroke(characterColorScheme.leg[0], characterColorScheme.leg[1], characterColorScheme.leg[2])
-	strokeWeight(characterVar.width / 5)
-	var legYStart = characterVar.displayY - characterVar.width / 10
-	var legYEnd = characterVar.displayY
-
-	if (characterVar.jumping) {
-		legYEnd = characterVar.displayY + characterVar.width / 10
-	}
-	// Left Leg
-	if (characterVar.direction != "right") {
-		var legXStart = characterVar.displayX - characterVar.width / 5
-		var legXEnd = characterVar.displayX - characterVar.width / 3
-		if (characterVar.jumping) {
-			legXEnd = characterVar.displayX - characterVar.width / 4
-		}
-		line(legXStart, legYStart, legXEnd, legYEnd)
-	}
-
-	// Right Leg
-	if (characterVar.direction != "left") {
-		var legXStart = characterVar.displayX + characterVar.width / 5
-		var legXEnd = characterVar.displayX + characterVar.width / 3
-		if (characterVar.jumping) {
-			legXEnd = characterVar.displayX + characterVar.width / 4
-		}
-		line(legXStart, legYStart, legXEnd, legYEnd)
-	}
-
-
-	// Draw Arms
-	if (characterVar.direction == "front") {
-		stroke(characterColorScheme.arm[0], characterColorScheme.arm[1], characterColorScheme.arm[2])
-		strokeWeight(characterVar.width / 5)
-		var armYStart = characterVar.displayY - characterVar.height + (characterVar.width / 2)
-		var armYEnd = characterVar.displayY - characterVar.height + (characterVar.width * 3 / 4)
-
-		// Left Arm
-		var armXStart = characterVar.displayX - characterVar.width / 2
-		var armXEnd = characterVar.displayX - characterVar.width / 2
-		if (characterVar.jumping) {
-			armXEnd = characterVar.displayX - characterVar.width * 7 / 10
-		}
-		line(armXStart, armYStart, armXEnd, armYEnd)
-
-		// Right Arm
-		armXStart = characterVar.displayX + characterVar.width / 2
-		armXEnd = characterVar.displayX + characterVar.width / 2
-		if (characterVar.jumping) {
-			armXEnd = characterVar.displayX + characterVar.width * 7 / 10
-		}
-		line(armXStart, armYStart, armXEnd, armYEnd)
-	}
-
-	// Draw the body
-	stroke(characterColorScheme.body[0], characterColorScheme.body[1], characterColorScheme.body[2]) // Dark Blue?
-	strokeWeight(characterVar.width)
-	line(characterVar.displayX, characterVar.displayY - (characterVar.width / 2), characterVar.displayX, characterVar.displayY - (characterVar.width * 0.8))
-
-	// Draw the Chin (side)
-	if (characterVar.direction != "front") {
-		if (characterVar.direction == "left") {
-			var chinStart = 0
-			var chinEnd = PI / 2
-			var chinX = characterVar.displayX - characterVar.width / 2
-		}
-		else if (characterVar.direction == "right") {
-			var chinStart = PI / 2
-			var chinEnd = PI
-			var chinX = characterVar.displayX + characterVar.width / 2
-		}
-		strokeWeight(0.5)
-		stroke(characterColorScheme.body[0], characterColorScheme.body[1], characterColorScheme.body[2])
-		fill(characterColorScheme.eyeSocket[0], characterColorScheme.eyeSocket[1], characterColorScheme.eyeSocket[2])
-		arc(chinX, characterVar.displayY - characterVar.height + (characterVar.width / 2), characterVar.width * 2 / 3, characterVar.width * 7 / 10, chinStart, chinEnd, PIE)
-	}
-
-
-	// Draw the Eye Socket
-	if (characterVar.direction != "front") {
-		strokeWeight(1)
-		stroke(characterColorScheme.body[0], characterColorScheme.body[1], characterColorScheme.body[2])
-
-		if (characterVar.direction == "left") {
-			var socketX = characterVar.displayX - characterVar.width / 3
-		}
-		else if (characterVar.direction == "right") {
-			var socketX = characterVar.displayX + characterVar.width / 3
-		}
-		var socketY = characterVar.displayY - characterVar.height + (characterVar.width / 2)
-		strokeWeight(1)
-		// stroke(characterColorScheme.body[0], characterColorScheme.body[1], characterColorScheme.body[2])
-		noStroke()
-		fill(characterColorScheme.eyeSocket[0], characterColorScheme.eyeSocket[1], characterColorScheme.eyeSocket[2])
-		ellipse(socketX, socketY, characterVar.width / 3, characterVar.width / 2)
-	}
-	else {
-		// Left Eye Socket
-		strokeWeight(1)
-		stroke(characterColorScheme.body[0], characterColorScheme.body[1], characterColorScheme.body[2])
-		fill(characterColorScheme.eyeSocket[0], characterColorScheme.eyeSocket[1], characterColorScheme.eyeSocket[2])
-		ellipse(characterVar.displayX - (characterVar.width / 4), characterVar.displayY - characterVar.height + (characterVar.width / 2), characterVar.width / 2, characterVar.width / 2)
-		// Right Eye Socket
-		strokeWeight(1)
-		stroke(characterColorScheme.body[0], characterColorScheme.body[1], characterColorScheme.body[2])
-		fill(characterColorScheme.eyeSocket[0], characterColorScheme.eyeSocket[1], characterColorScheme.eyeSocket[2])
-		ellipse(characterVar.displayX + (characterVar.width / 4), characterVar.displayY - characterVar.height + (characterVar.width / 2), characterVar.width / 2, characterVar.width / 2)
-	}
-
-	// Draw chin (front)
-	if (characterVar.direction == "front") {
-		strokeWeight(1)
-		stroke(characterColorScheme.body[0], characterColorScheme.body[1], characterColorScheme.body[2])
-		fill(characterColorScheme.eyeSocket[0], characterColorScheme.eyeSocket[1], characterColorScheme.eyeSocket[2])
-		arc(characterVar.displayX, characterVar.displayY - characterVar.height + (characterVar.width / 2), characterVar.width, characterVar.width, 0, PI)
-	}
-
-	// Draw the Eyes
-	if (characterVar.direction != "front") {
-		if (characterVar.direction == "left") {
-			var eyeX = characterVar.displayX - characterVar.width / 3
-		}
-		else if (characterVar.direction == "right") {
-			var eyeX = characterVar.displayX + characterVar.width / 3
-		}
-		var eyeY = characterVar.displayY - characterVar.height + (characterVar.width / 2)
-		noStroke();
-		stroke(characterColorScheme.body[0], characterColorScheme.body[1], characterColorScheme.body[2])
-		fill(characterColorScheme.eye[0], characterColorScheme.eye[1], characterColorScheme.eye[2])
-		ellipse(eyeX, eyeY, characterVar.width / 9, characterVar.width / 9)
-	}
-	else {
-		// Left Eye
-		noStroke()
-		fill(characterColorScheme.eye[0], characterColorScheme.eye[1], characterColorScheme.eye[2])
-		ellipse(characterVar.displayX - (characterVar.width / 4), characterVar.displayY - characterVar.height + (characterVar.width / 2) + characterVar.width / 16, characterVar.width / 9, characterVar.width / 9)
-		// Right Eye
-		noStroke()
-		fill(characterColorScheme.eye[0], characterColorScheme.eye[1], characterColorScheme.eye[2])
-		ellipse(characterVar.displayX + (characterVar.width / 4), characterVar.displayY - characterVar.height + (characterVar.width / 2) + characterVar.width / 16, characterVar.width / 9, characterVar.width / 9)
-	}
-
-	// Draw nose
-	if (characterVar.direction != "front") {
-		if (characterVar.direction == "left") {
-			var noseX = characterVar.displayX - characterVar.width / 2
-		}
-		else if (characterVar.direction == "right") {
-			var noseX = characterVar.displayX + characterVar.width / 2
-		}
-		var noseY = characterVar.displayY - characterVar.height + (characterVar.width / 2) + characterVar.width / 8
-		noStroke()
-		fill(characterColorScheme.nose[0], characterColorScheme.nose[1], characterColorScheme.nose[2])
-		ellipse(noseX, noseY, characterVar.width / 9, characterVar.width / 9)
-	}
-	else {
-		noStroke()
-		fill(characterColorScheme.nose[0], characterColorScheme.nose[1], characterColorScheme.nose[2])
-		triangle(characterVar.displayX, characterVar.displayY - characterVar.height + (characterVar.width / 2) + characterVar.width / 8, characterVar.displayX - characterVar.width / 16, characterVar.displayY - characterVar.height + (characterVar.width / 2) + characterVar.width / 6 + characterVar.width / 16, characterVar.displayX + characterVar.width / 16, characterVar.displayY - characterVar.height + (characterVar.width / 2) + characterVar.width / 6 + characterVar.width / 16)
-	}
-
-	// Draw Arms
-	stroke(characterColorScheme.arm[0], characterColorScheme.arm[1], characterColorScheme.arm[2])
-	strokeWeight(characterVar.width / 5)
-	var armYStart = characterVar.displayY - characterVar.height + (characterVar.width / 2)
-	var armYEnd = characterVar.displayY - characterVar.height + (characterVar.width * 3 / 4)
-
-	// Draw side arms (if facing side)
-	if (characterVar.direction != "front") {
-		var armXStart = characterVar.displayX
-		var armXEnd = characterVar.displayX
-		if (characterVar.jumping) {
-			if (characterVar.direction == "left") {
-				armXEnd = characterVar.displayX + characterVar.width * 2 / 10
+		if (keyCode == 39) {
+			if (keyIsDown(37)) {
+				player.direction = "left"
+			}
+			else {
+				player.direction = "front"
 			}
 		}
-		line(armXStart, armYStart, armXEnd, armYEnd)
 	}
 
-	strokeWeight(1)
+	draw() {
+		// Calculate Height
+		this.height = this.width * 1.3
 
-	// Draw an anchor
-	if (debug_anchor) {
-		stroke(125)
+		// Draw legs
+		stroke(this.color.leg)
+		strokeWeight(this.width / 5)
+		var legYStart = this.pos.y - this.width / 10
+		var legYEnd = this.pos.y
+
+		if (this.jumping) {
+			legYEnd = this.pos.y + this.width / 10
+		}
+		// Left Leg
+		if (this.direction != "right") {
+			var legXStart = this.displayX - this.width / 5
+			var legXEnd = this.displayX - this.width / 3
+			if (this.jumping) {
+				legXEnd = this.displayX - this.width / 4
+			}
+			line(legXStart, legYStart, legXEnd, legYEnd)
+		}
+
+		// Right Leg
+		if (this.direction != "left") {
+			var legXStart = this.displayX + this.width / 5
+			var legXEnd = this.displayX + this.width / 3
+			if (this.jumping) {
+				legXEnd = this.displayX + this.width / 4
+			}
+			line(legXStart, legYStart, legXEnd, legYEnd)
+		}
+
+
+		// Draw Arms
+		if (this.direction == "front") {
+			stroke(this.color.arm)
+			strokeWeight(this.width / 5)
+			var armYStart = this.pos.y - this.height + (this.width / 2)
+			var armYEnd = this.pos.y - this.height + (this.width * 3 / 4)
+
+			// Left Arm
+			var armXStart = this.displayX - this.width / 2
+			var armXEnd = this.displayX - this.width / 2
+			if (this.jumping) {
+				armXEnd = this.displayX - this.width * 7 / 10
+			}
+			line(armXStart, armYStart, armXEnd, armYEnd)
+
+			// Right Arm
+			armXStart = this.displayX + this.width / 2
+			armXEnd = this.displayX + this.width / 2
+			if (this.jumping) {
+				armXEnd = this.displayX + this.width * 7 / 10
+			}
+			line(armXStart, armYStart, armXEnd, armYEnd)
+		}
+
+		// Draw the body
+		stroke(this.color.body) // Dark Blue?
+		strokeWeight(this.width)
+		line(this.displayX, this.pos.y - (this.width / 2), this.displayX, this.pos.y - (this.width * 0.8))
+
+		// Draw the Chin (side)
+		if (this.direction != "front") {
+			if (this.direction == "left") {
+				var chinStart = 0
+				var chinEnd = PI / 2
+				var chinX = this.displayX - this.width / 2
+			}
+			else if (this.direction == "right") {
+				var chinStart = PI / 2
+				var chinEnd = PI
+				var chinX = this.displayX + this.width / 2
+			}
+			strokeWeight(0.5)
+			stroke(this.color.body)
+			fill(this.color.eyeSocket)
+			arc(chinX, this.pos.y - this.height + (this.width / 2), this.width * 2 / 3, this.width * 7 / 10, chinStart, chinEnd, PIE)
+		}
+
+
+		// Draw the Eye Socket
+		if (this.direction != "front") {
+			strokeWeight(1)
+			stroke(this.color.body)
+
+			if (this.direction == "left") {
+				var socketX = this.displayX - this.width / 3
+			}
+			else if (this.direction == "right") {
+				var socketX = this.displayX + this.width / 3
+			}
+			var socketY = this.pos.y - this.height + (this.width / 2)
+			strokeWeight(1)
+			// stroke(characterColorScheme.body[0], characterColorScheme.body[1], characterColorScheme.body[2])
+			noStroke()
+			fill(this.color.eyeSocket)
+			ellipse(socketX, socketY, this.width / 3, this.width / 2)
+		}
+		else {
+			// Left Eye Socket
+			strokeWeight(1)
+			stroke(this.color.body)
+			fill(this.color.eyeSocket)
+			ellipse(this.displayX - (this.width / 4), this.pos.y - this.height + (this.width / 2), this.width / 2, this.width / 2)
+			// Right Eye Socket
+			strokeWeight(1)
+			stroke(this.color.body)
+			fill(this.color.eyeSocket)
+			ellipse(this.displayX + (this.width / 4), this.pos.y - this.height + (this.width / 2), this.width / 2, this.width / 2)
+		}
+
+		// Draw chin (front)
+		if (this.direction == "front") {
+			strokeWeight(1)
+			stroke(this.color.body)
+			fill(this.color.eyeSocket)
+			arc(this.displayX, this.pos.y - this.height + (this.width / 2), this.width, this.width, 0, PI)
+		}
+
+		// Draw the Eyes
+		if (this.direction != "front") {
+			if (this.direction == "left") {
+				var eyeX = this.displayX - this.width / 3
+			}
+			else if (this.direction == "right") {
+				var eyeX = this.displayX + this.width / 3
+			}
+			var eyeY = this.pos.y - this.height + (this.width / 2)
+			noStroke();
+			stroke(this.color.body)
+			fill(this.color.eye)
+			ellipse(eyeX, eyeY, this.width / 9, this.width / 9)
+		}
+		else {
+			// Left Eye
+			noStroke()
+			fill(this.color.eye)
+			ellipse(this.displayX - (this.width / 4), this.pos.y - this.height + (this.width / 2) + this.width / 16, this.width / 9, this.width / 9)
+			// Right Eye
+			noStroke()
+			fill(this.color.eye)
+			ellipse(this.displayX + (this.width / 4), this.pos.y - this.height + (this.width / 2) + this.width / 16, this.width / 9, this.width / 9)
+		}
+
+		// Draw nose
+		if (this.direction != "front") {
+			if (this.direction == "left") {
+				var noseX = this.displayX - this.width / 2
+			}
+			else if (this.direction == "right") {
+				var noseX = this.displayX + this.width / 2
+			}
+			var noseY = this.pos.y - this.height + (this.width / 2) + this.width / 8
+			noStroke()
+			fill(this.color.nose)
+			ellipse(noseX, noseY, this.width / 9, this.width / 9)
+		}
+		else {
+			noStroke()
+			fill(this.color.nose)
+			triangle(this.displayX, this.pos.y - this.height + (this.width / 2) + this.width / 8, this.displayX - this.width / 16, this.pos.y - this.height + (this.width / 2) + this.width / 6 + this.width / 16, this.displayX + this.width / 16, this.pos.y - this.height + (this.width / 2) + this.width / 6 + this.width / 16)
+		}
+
+		// Draw Arms
+		stroke(this.color.arm)
+		strokeWeight(this.width / 5)
+		var armYStart = this.pos.y - this.height + (this.width / 2)
+		var armYEnd = this.pos.y - this.height + (this.width * 3 / 4)
+
+		// Draw side arms (if facing side)
+		if (this.direction != "front") {
+			var armXStart = this.displayX
+			var armXEnd = this.displayX
+			if (this.jumping) {
+				if (this.direction == "left") {
+					armXEnd = this.displayX + this.width * 2 / 10
+				}
+			}
+			line(armXStart, armYStart, armXEnd, armYEnd)
+		}
+
 		strokeWeight(1)
-		fill(255, 0, 0)
-		ellipse(characterVar.displayX, characterVar.displayY, 5, 5)
+
+		// Draw an anchor
+		if (debug_anchor) {
+			stroke(125)
+			strokeWeight(1)
+			fill(255, 0, 0)
+			ellipse(this.displayX, this.pos.y, 5, 5)
+		}
 	}
 }

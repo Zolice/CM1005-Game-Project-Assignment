@@ -1,45 +1,50 @@
-// Toggle for anchor points
-var debug_anchor = false
+var debug_anchor = true // Toggle for anchor points
+var debug_ui = false // Displays FPS Counter
 
 var floorY
 var translation = 0;
 
+var sound
+var ui
+var scene
+
+
 function preload() {
-	soundSetup()
+	sound = Sound.setup()
 }
 
 function setup() {
-	uiLoading()
-	while (!soundObject.loaded) {
-		console.log(soundObject.loaded)
+	ui = Ui.setup()
+	while (!sound.loaded) {
+		ui.drawLoading()
 	}
-
 
 	console.log("Starting setup...")
 	createCanvas(windowWidth, windowHeight - 32)
-	floorY = height * 0.7
-	translation = 0
 
-	uiSetup()
-	characterSetup()
-	sceneSetup()
+	scene = new Scene()
+	player = Character.setup()
 	console.log("Setup complete")
 }
 
+function resetGame() {
+	scene = new Scene()
+	player = Character.setup()
+}
+
 function draw() {
-	sceneDraw()
-	characterDraw()
-	uiDraw()
+	scene.move()
+	scene.draw()
+	player.move()
+	player.draw()
+	ui.draw()
 }
 
 function keyPressed() {
-	if ((keyCode == 82 && player.plummeting) || (keyCode == 82 && player.gameWon)) {
-		setup()
-	}
-
-	characterKeyPressed(keyCode)
+	if (player) player.keyPressed(keyCode)
+	if (ui) ui.keyPressed(keyCode)
 }
 
 function keyReleased() {
-	characterKeyReleased(keyCode)
+	if (player) player.keyReleased(keyCode)
 }

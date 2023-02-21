@@ -1,96 +1,115 @@
-// Toggle for Frame Rate Counter
-var ui_debug = true
+class Ui {
+    constructor() {
+        this.frameRate = 60
+        this.defaultFontColor = color(0, 0, 0)
+        this.timer = 0
+        this.background = color(0, 0, 0, 75)
+        this.fontColour = color(255, 255, 255)
 
-var frameRateVar = 60
-
-var uiDefaultFontColor = [0, 0, 0]
-var timer = 0
-
-var uiBackground = [0, 0, 0, 75]
-var uiFontColour = [255, 255, 255]
-
-function uiSetup() {
-    timer = 0
-    frameRate(frameRateVar)
-}
-
-function uiDraw() {
-    if (!player.alive) {
-        uiGameLost()
+        this.setFrameRate(this.frameRate)
     }
 
-    if (player.gameWon) {
-        uiGameWon()
+    static setup() {
+        return new Ui()
     }
 
-    fill(uiDefaultFontColor)
-    textSize(12)
+    draw() {
+        if (!player.alive) {
+            this.drawGameLost()
+        }
 
-    text("Time: " + Math.floor(timer) + "s",
-        20, 20)
+        if (player.gameWon) {
+            this.drawGameWon()
+        }
 
-    text("Score: " + Math.floor(player.score),
-        96, 20)
+        textAlign(LEFT, TOP)
+        fill(this.defaultFontColor)
+        textSize(12)
 
-    text("Lives: " + player.lives, 20, 40)
+        text("Score: " + Math.floor(player.score),
+            20, 20)
 
-    if (player.alive && !player.gameWon) {
-        if (frameRate() > 0) { // Prevents 1 / 0
-            timer += (1 / frameRate())
+        text("Time: " + this.getTimeInMinuteAndSeconds(),
+            96, 20)
+
+        text("Lives: " + player.lives, 20, 40)
+
+        text("Distance: " + Math.floor(player.getDistance()),
+            96, 40)
+
+        if (player.alive && !player.gameWon) {
+            if (frameRate() > 0) { // Prevents 1 / 0
+                this.timer += (1 / frameRate())
+            }
+        }
+
+        if (debug_ui) {
+            text("FPS: " + Math.floor(frameRate()), 20, 60)
         }
     }
 
-    if (ui_debug) {
-        text("FPS: " + Math.floor(frameRate()), 20, 60)
+    drawLoading() {
+        fill(this.background)
+        rect(0, 0, width, height)
+        fill(this.fontColour)
+        textSize(128)
+        textAlign(CENTER, CENTER)
+        text("Loading...", width / 2, height / 2)
     }
-}
 
-function uiLoading() {
-    console.log("Loading...")
-    fill(uiBackground)
-    rect(0, 0, width, height)
-    fill(uiFontColour)
-    textSize(128)
-    textAlign(CENTER, CENTER)
-    text("Loading...", width / 2, height / 2)
-}
+    drawGameLost() {
+        fill(this.background)
+        rect(0, 0, width, height)
+        fill(this.fontColour)
+        textSize(128)
+        textAlign(CENTER, CENTER)
+        text("You ran out of Lives!", width / 2, height / 2)
+        textSize(32)
+        text("Press R to restart", width / 2, height / 2 + 80)
 
-function uiGameLost() {
-    fill(uiBackground)
-    rect(0, 0, width, height)
-    fill(uiFontColour)
-    textSize(128)
-    textAlign(CENTER, CENTER)
-    text("You ran out of Lives!", width / 2, height / 2)
-    textSize(32)
-    text("Press R to restart", width / 2, height / 2 + 80)
+        textSize(24)
+        text("Time: " + this.getTimeInMinuteAndSeconds(),
+            width / 2, height / 2 + 128)
+        text("Score: " + Math.floor(player.score),
+            width / 2, height / 2 + 160)
+        text("Distance Travelled: " + Math.floor(player.getDistance()),
+            width / 2, height / 2 + 192)
+    }
 
-    textSize(24)
-    text("Time: " + Math.floor(timer) + "s",
-        width / 2, height / 2 + 128)
-    text("Score: " + Math.floor(player.score),
-        width / 2, height / 2 + 160)
+    drawGameWon() {
+        fill(this.background)
+        rect(0, 0, width, height)
+        fill(this.fontColour)
+        textSize(128)
+        textAlign(CENTER, CENTER)
+        text("You won!", width / 2, height / 2)
+        textSize(32)
+        text("Press R to restart", width / 2, height / 2 + 80)
 
-    textAlign(LEFT, TOP)
-}
+        textSize(24)
+        text("Time: " + this.getTimeInMinuteAndSeconds(),
+            width / 2, height / 2 + 128)
+        text("Score: " + Math.floor(player.score),
+            width / 2, height / 2 + 160)
+        text("Distance Travelled: " + Math.floor(player.getDistance()),
+            width / 2, height / 2 + 192)
+    }
 
-function uiGameWon() {
-    fill(uiBackground)
-    rect(0, 0, width, height)
-    fill(uiFontColour)
-    textSize(128)
-    textAlign(CENTER, CENTER)
-    text("You won!", width / 2, height / 2)
-    textSize(32)
-    text("Press R to restart", width / 2, height / 2 + 64)
+    getTimeInMinuteAndSeconds() {
+        let minutes = Math.floor(this.timer / 60)
+        let seconds = Math.floor(this.timer % 60)
 
-    textSize(24)
-    text("Time: " + Math.floor(timer) + "s",
-        width / 2, height / 2 + 128)
-    text("Score: " + Math.floor(player.score),
-        width / 2, height / 2 + 160)
-    text("Lives: " + Math.floor(player.lives),
-        width / 2, height / 2 + 192)
+        return (minutes == 0 ? "" : (minutes + "min ")) + seconds + "s"
+    }
 
-    textAlign(LEFT, TOP)
+    keyPressed(keyCode) {
+        if ((keyCode == 82 && player.plummeting) || (keyCode == 82 && player.gameWon)) {
+            resetGame()
+        }
+    }
+
+    setFrameRate(fps) {
+        console.log("Attempting to set frame rate to " + fps)
+        frameRate(fps)
+    }
 }
