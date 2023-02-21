@@ -1,72 +1,48 @@
-# CM1005 Game Project Assignment
-## Project Members
-- Yong Zhen Long (Individual)
+<div style="float: left; margin-right: 16px;">
+    <a href="https://github.com/Zolice/CM1005-Game-Project-Assignment">
+        <img src="./images/icon.png" alt="Logo" height="128">
+    </a>
+</div>
+<div>
+    <br>
+    <h1>CM1005 Game Project Assignment</h1>
+    <p>Project assigned by SIM GE - UOL for the purpose of CM1005 Introduction to Computer Programming I</p>
+    <br>
+</div>
 
-# Project Description
-Project assigned by SIM GE - UOL for the purpose of CM1005 Introduction to Computer Programming I
 
 # Instructions
-To start, open the `index.html` file.
+To start, open the `index.html` file using a Live Server extension.
 
-# Additional Information
-To enable the display of anchor points, set the `debug_anchor` variable to `true` in the `sketch.js` file.
+# Configuration
+To enable the display of anchor points, set the `debug_anchor` constant to `true` in the `sketch.js` file. This is set to `true` by default.
 
-To display the frame rate counter on the top left corner of the screen, set the `ui_debug` variable to `true` in the `ui.js` file.
+To display the frame rate counter on the top left corner of the screen, set the `debug_ui` constant to `true` in the `sketch.js` file. This is set to `true` by default.
+
+To customize the Frame Rate, set the `applyFrameRate` constant to the desired value in the `sketch.js` file. This is set to `true` by default.
 
 # Built Using
-![p5js](https://img.shields.io/badge/p5.js-ED225D?style=for-the-badge&logo=p5.js&logoColor=FFFFFF)
+<a href="https://p5js.org/"><img src="https://img.shields.io/badge/p5.js-ED225D?style=for-the-badge&logo=p5.js&logoColor=FFFFFF"></a>
+![javascript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=000000)
+<a href="https://mixkit.co/"><img src="https://img.shields.io/badge/Mixkit-FFFFFF?style=for-the-badge&logo=mixkit&logoColor=FFFFFF"></a>
 
-# Assignments
-## Game Project Part 1
-- [x] Draw Clouds
-- [x] Draw Mountains
-- [x] Draw Trees
-- [x] Draw Canyon
-- [x] Draw Collectables
+# Features
+- [x] Player Movement
+- [x] Canyon Obstacles
+- [x] Collectables Score 
+- [x] Sidescrolling
+- [x] Player Lifes
+- [x] UI Score and Life Display
+- [x] Lose Condition
+- [x] Animations
+- [x] Sound Effects (Enhancement)
+- [ ] Platforms (Enhancement)
+- [ ] Particle Effects (Fireworks) (Enhancement)
+- [ ] Enemies (Enhancement)
 
-## Game Project Part 2a
-- [x] Draw Player standing front facing
-- [x] Draw Player jumping facing forwards 
-- [x] Draw Player walking left 
-- [x] Draw Player walking right 
-- [x] Draw Player jumping left and jumping right
-
-## Game Project Part 2b
-- [x] Moveable game character
-- [x] Place the tree 
-- [x] Canyon 
-- [x] Collectable item 
-- [x] Mountain and cloud
-
-## Game Project Part 3a
-- [x] Inspect the code 
-- [x] Create variables for interaction 
-- [x] Implement left and right for keyPressed 
-- [x] Implement left and right for keyReleased 
-- [x] Add game character 
-- [x] Make the game character move left and right 
-- [x] Make the game character jump 
-- [x] Add gravity 
-- [x] Prevent double jumps 
-
-## Game Project Part 3b
-- [x] Make a copy of your code from Part 3
-- [x] Collectable item object 
-- [x] Draw the collectable item 
-- [x] Collectable item interaction 
-- [x] Draw the canyon 
-- [x] Falling down the canyon 
-- [x] Jumping over the canyon 
-- [x] Freezing controls
-
-## Game Project 5
-- [x] Refactor background items rendering
-- [x] Refactor collectable rendering
-- [x] Refactor canyon rendering 
-- [x] Refactor collectable interaction 
-- [x] Refactor canyon interaction 
-- [x] Create multiple collectables 
-- [x] Create multiple canyons 
+# Screenshots
+![compilation](./screenshots/Compilation.png)
 
 # Acknowledgements
+- p5.js library from [p5.js](https://p5js.org/)
 - Sound Effects from [Mixkit](https://mixkit.co/)

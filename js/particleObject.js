@@ -24,7 +24,6 @@ class ParticleEmitter {
         this.spawnDelay = spawnDelay
 
         this.age = 0
-
         this.particles = []
         this.timer = 0
     }
@@ -66,6 +65,12 @@ class ParticleEmitter {
         this.particles.forEach((particle) => {
             particle.draw()
         })
+
+        if(debug_anchor) {
+            noStroke()
+            fill(255, 0, 0)
+            ellipse(this.pos.x, this.pos.y, 5, 5)
+        }
     }
 
     isAlive() {
@@ -102,6 +107,7 @@ class Particle {
     draw() {
         if (!this.alive) return
         fill(this.colour)
+        noStroke()
         ellipse(this.pos.x, this.pos.y, this.size, this.size)
     }
 }

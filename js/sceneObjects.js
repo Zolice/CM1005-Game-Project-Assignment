@@ -288,12 +288,9 @@ class Checkpoint {
             for (let i = this.x - 500; i <= this.x + 500; i += 200) {
                 let y = this.y - this.height + random(-100, 150)
                 this.particleEmitter.push(new ParticleEmitter(i, y, "spread", 5, 400, 100, 25, 10, true, []))
-                // sound.playSound("fireworks")
                 this.clusterSummoned = true
             }
         }
-
-
     }
 
     moveFlag() {

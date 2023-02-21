@@ -1,2 +1,4 @@
 .vscode/
 modules/*.zip
+*test*
+*.psd
