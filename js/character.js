@@ -54,11 +54,14 @@ class Character {
 			return
 		}
 
+		let oldY = this.pos.y
 		this.movement.add(this.gravity)
 		this.pos.add(this.movement)
+		console.log("Player Y = " + this.pos.y + "Old Y = " + oldY)
 
-		if (this.pos.y >= floorY) {
-			this.pos.y = floorY
+		if (this.pos.y >= Platform.checkCollision(this.pos.x, oldY, this.width)) {
+			console.log("Condition met")
+			this.pos.y = Platform.checkCollision(this.pos.x, oldY, this.width)
 			this.movement.y = 0
 			this.jumping = false
 		}
@@ -123,6 +126,7 @@ class Character {
 			this.movement = createVector(0, yVelocity)
 			this.jumping = true
 			sound.playSound("jump")
+			console.error("Player jumped!")
 		}
 	}
 

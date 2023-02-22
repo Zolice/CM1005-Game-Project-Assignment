@@ -263,7 +263,7 @@ class Checkpoint {
     poleColor = color(189, 189, 189)
 
     checkCollision() {
-        if (!this.reached && abs(player.pos.x - this.x) <= this.poleWidth * 2) {
+        if (!this.reached && abs(player.pos.x - this.x) <= this.poleWidth * 2 && player.pos.y <= this.y) {
             this.reached = true
 
             if (this.lastFlag) {
@@ -378,6 +378,7 @@ class Collectable {
             endShape()
         }
         if (debug_anchor) {
+            noStroke()
             fill(255, 0, 0)
             ellipse(this.x, this.y, 5, 5)
         }

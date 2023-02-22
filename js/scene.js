@@ -5,6 +5,7 @@ class Scene {
     canyons = []
     collectables = []
     checkpoints = []
+    platforms = []
 
     constructor() {
         this.backgroundColor = random(this.backgroundColor)
@@ -19,14 +20,12 @@ class Scene {
     }
 
     setup() {
-        this.chunkStart = this.chunkCount / 2 * this.chunkSize * -1 - this.chunkSize / 4
-        this.chunkEnd = this.chunkCount / 2 * this.chunkSize + this.chunkSize / 4
+        this.chunkStart = this.chunkCount / 2 * this.chunkSize * -1 - this.chunkSize
+        this.chunkEnd = this.chunkCount / 2 * this.chunkSize + this.chunkSize
         this.chunkStartCount = this.chunkCount / 2 * -1
         this.chunkEndCount = this.chunkCount / 2
 
         this.checkpoints.push(new Checkpoint(0, floorY, false, true))
-        this.checkpoints.push(new Checkpoint(this.chunkStart, floorY, true))
-        this.checkpoints.push(new Checkpoint(this.chunkEnd, floorY, true))
 
         for (var i = this.chunkStartCount; i < this.chunkEndCount; i++) {
             this.generateChunk(i * this.chunkSize)
@@ -34,6 +33,9 @@ class Scene {
                 this.checkpoints.push(new Checkpoint(i * this.chunkSize, floorY))
             }
         }
+
+        this.addPlatform(this.chunkStartCount * this.chunkSize - this.chunkSize / 2, this.chunkStartCount * this.chunkSize)
+        this.addPlatform(this.chunkEndCount * this.chunkSize, this.chunkEndCount * this.chunkSize + this.chunkSize / 2)
     }
 
     generateChunk(startX, y = floorY, chunkSize = 1000) {
@@ -65,6 +67,21 @@ class Scene {
         for (var j = 0; j < collectableCount; j++) {
             var collectableX = random(startX, startX + chunkSize)
             this.collectables.push(new Collectable(collectableX, y - 40, 50))
+        }
+    }
+
+    addPlatform(startX, endX) {
+        var platformCount = abs((startX - endX) / 100)
+        let platformGap = (abs(startX - endX) - (platformCount * 100)) / (platformCount - 1)
+
+        console.log(startX, endX)
+        console.log(platformCount, platformGap)
+        for (var i = 0; i < platformCount; i++) {
+            this.platforms.push(new Platform(startX + i * (100 + platformGap), floorY - (i + 1) * 50, 100))
+            if(i == platformCount - 1){
+                
+                this.checkpoints.push(new Checkpoint(startX + i * (100 + platformGap), floorY - (i + 1) * 50, true))
+            }
         }
     }
 
@@ -121,6 +138,8 @@ class Scene {
         this.clouds.forEach(cloud => cloud.draw())
 
         this.checkpoints.forEach(checkpoint => checkpoint.drawFireworks())
+
+        this.platforms.forEach(platform => platform.draw())
 
         pop()
     }
