@@ -57,10 +57,8 @@ class Character {
 		let oldY = this.pos.y
 		this.movement.add(this.gravity)
 		this.pos.add(this.movement)
-		console.log("Player Y = " + this.pos.y + "Old Y = " + oldY)
 
 		if (this.pos.y >= Platform.checkCollision(this.pos.x, oldY, this.width)) {
-			console.log("Condition met")
 			this.pos.y = Platform.checkCollision(this.pos.x, oldY, this.width)
 			this.movement.y = 0
 			this.jumping = false
@@ -341,6 +339,9 @@ class Character {
 			if (this.jumping) {
 				if (this.direction == "left") {
 					armXEnd = this.displayX + this.width * 2 / 10
+				}
+				if (this.direction == "right") {
+					armXEnd = this.displayX - this.width * 2 / 10
 				}
 			}
 			line(armXStart, armYStart, armXEnd, armYEnd)
