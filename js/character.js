@@ -76,7 +76,8 @@ class Character {
 		}
 	}
 
-	setPlummeting(plummeting) {
+	setPlummeting(plummeting = true) {
+		if(this.plummeting) return
 		this.plummeting = plummeting
 		sound.playSound("plummeting")
 		console.log(`Player fell into a canyon! ${this.lives - 1} lives remaining.`)
@@ -124,7 +125,6 @@ class Character {
 			this.movement = createVector(0, yVelocity)
 			this.jumping = true
 			sound.playSound("jump")
-			console.error("Player jumped!")
 		}
 	}
 

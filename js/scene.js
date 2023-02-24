@@ -6,6 +6,7 @@ class Scene {
     collectables = []
     checkpoints = []
     platforms = []
+    enemies = []
 
     constructor() {
         this.backgroundColor = random(this.backgroundColor)
@@ -51,7 +52,13 @@ class Scene {
             this.mountains.push(new Mountain(mountainX, y))
         }
 
-        let canyonCount = random(Math.floor(chunkSize / 750), Math.floor(chunkSize / 500))
+        // let canyonCount = random(Math.floor(chunkSize / 750), Math.floor(chunkSize / 500))
+        let canyonCount = 2
+        if (random(0, 1) >= 0.5) { // 50% chance to generate an enemy
+            this.enemies.push(new Enemy(random(startX + chunkSize * 0.3, startX + chunkSize * 0.7), y - 40, 30, 300))
+            canyonCount = 1
+        }
+
         for (var j = 0; j < canyonCount; j++) {
             var canyonX = random(startX + chunkSize * 0.3, startX + chunkSize * 0.7)
             this.canyons.push(Canyon.setup(canyonX, y))
@@ -74,8 +81,6 @@ class Scene {
         var platformCount = Math.floor(abs((startX - endX) / (100 + 50)))
         let platformGap = (abs(startX - endX) - (platformCount * 100)) / (platformCount - 1)
 
-        console.log(startX, endX)
-        console.log(platformCount, platformGap)
         for (var i = 0; i < platformCount; i++) {
             if (negative) {
                 this.platforms.push(new Platform(startX - i * (100 + platformGap), floorY - (i + 1) * 75, 100))
@@ -123,8 +128,15 @@ class Scene {
         if (this.canyons) this.canyons.forEach(canyon => canyon.checkCollision())
         if (this.clouds) this.clouds.forEach(cloud => cloud.move())
         if (this.collectables) this.collectables.forEach(collectable => collectable.checkCollision())
-        if (this.checkpoints) this.checkpoints.forEach(checkpoint => checkpoint.checkCollision())
-        if (this.checkpoints) this.checkpoints.forEach(checkpoint => checkpoint.moveFlag())
+        if (this.checkpoints) this.checkpoints.forEach(checkpoint => {
+            checkpoint.checkCollision()
+            checkpoint.moveFlag()
+        })
+        if (this.enemies) this.enemies.forEach(enemy => {
+            enemy.move()
+            if (enemy.checkCollision(player.pos.x, player.pos.y, player.width, player.height)) console.log("collision")
+        })
+
     }
 
     draw() {
@@ -151,6 +163,8 @@ class Scene {
         this.checkpoints.forEach(checkpoint => checkpoint.drawFireworks())
 
         this.platforms.forEach(platform => platform.draw())
+
+        this.enemies.forEach(enemy => enemy.draw())
 
         pop()
     }
