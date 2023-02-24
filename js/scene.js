@@ -34,7 +34,7 @@ class Scene {
             }
         }
 
-        this.addPlatform(this.chunkStartCount * this.chunkSize - this.chunkSize / 2, this.chunkStartCount * this.chunkSize)
+        this.addPlatform(this.chunkStartCount * this.chunkSize - this.chunkSize / 2, this.chunkStartCount * this.chunkSize, true)
         this.addPlatform(this.chunkEndCount * this.chunkSize, this.chunkEndCount * this.chunkSize + this.chunkSize / 2)
     }
 
@@ -70,17 +70,28 @@ class Scene {
         }
     }
 
-    addPlatform(startX, endX) {
-        var platformCount = abs((startX - endX) / 100)
+    addPlatform(startX, endX, negative = false) {
+        var platformCount = Math.floor(abs((startX - endX) / (100 + 50)))
         let platformGap = (abs(startX - endX) - (platformCount * 100)) / (platformCount - 1)
 
         console.log(startX, endX)
         console.log(platformCount, platformGap)
         for (var i = 0; i < platformCount; i++) {
-            this.platforms.push(new Platform(startX + i * (100 + platformGap), floorY - (i + 1) * 50, 100))
-            if(i == platformCount - 1){
-                
-                this.checkpoints.push(new Checkpoint(startX + i * (100 + platformGap), floorY - (i + 1) * 50, true))
+            if (negative) {
+                this.platforms.push(new Platform(startX - i * (100 + platformGap), floorY - (i + 1) * 75, 100))
+            }
+            else {
+                this.platforms.push(new Platform(startX + i * (100 + platformGap), floorY - (i + 1) * 75, 100))
+            }
+
+            if (i == platformCount - 1) {
+                if (negative) {
+
+                    this.checkpoints.push(new Checkpoint(startX - i * (100 + platformGap), floorY - (i + 1) * 75, 100))
+                }
+                else {
+                    this.checkpoints.push(new Checkpoint(startX + i * (100 + platformGap), floorY - (i + 1) * 75, true))
+                }
             }
         }
     }

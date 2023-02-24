@@ -26,7 +26,6 @@ class Platform {
         scene.platforms.forEach(platform => {
             if (x + width / 2 > platform.x - platform.width / 2 && x - width / 2 < platform.x + platform.width / 2 && y <= platform.y) {
                 height.push(platform.y)
-                console.log("Added " + platform.y)
             }
         })
 
@@ -38,7 +37,6 @@ class Platform {
             }
         })
 
-        console.log("Final height: " + finalHeight)
         return finalHeight
     }
 
