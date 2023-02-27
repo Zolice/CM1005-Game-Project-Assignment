@@ -38,7 +38,7 @@ To customize the Frame Rate, set the `applyFrameRate` constant to the desired va
 - [x] Sound Effects (Enhancement)
 - [x] Platforms (Enhancement)
 - [x] Particle Effects (Fireworks) (Enhancement)
-- [ ] Enemies (Enhancement)
+- [x] Enemies (Enhancement)
 
 # Screenshots
 ![compilation](./screenshots/Compilation.png)

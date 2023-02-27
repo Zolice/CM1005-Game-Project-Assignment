@@ -80,7 +80,6 @@ class Character {
 		if(this.plummeting) return
 		this.plummeting = plummeting
 		sound.playSound("plummeting")
-		console.log(`Player fell into a canyon! ${this.lives - 1} lives remaining.`)
 	}
 
 	setCheckpoint(checkpoint) {
@@ -116,7 +115,6 @@ class Character {
 		}
 		else {
 			this.alive = false
-			console.log("As the Player ran out of lives, game is lost.")
 		}
 	}
 
