@@ -24,7 +24,7 @@ To customize the Frame Rate, set the `applyFrameRate` constant to the desired va
 # Built Using
 <a href="https://p5js.org/"><img src="https://img.shields.io/badge/p5.js-ED225D?style=for-the-badge&logo=p5.js&logoColor=FFFFFF"></a>
 ![javascript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=000000)
-<a href="https://mixkit.co/"><img src="https://img.shields.io/badge/Mixkit-FFFFFF?style=for-the-badge&logo=mixkit&logoColor=FFFFFF"></a>
+<a href="https://mixkit.co/"><img src="https://img.shields.io/badge/Mixkit-FFFFFF?style=for-the-badge&logo=mixkit&logoColor=EEEEEE"></a>
 
 # Features
 - [x] Player Movement
@@ -42,6 +42,9 @@ To customize the Frame Rate, set the `applyFrameRate` constant to the desired va
 
 # Screenshots
 ![compilation](./screenshots/Compilation.png)
+
+# Notices
+Do note that due to the nature of p5js, a particle emitter can cause lag upon spawning fireworks, thus the player might experience lower FPS after reaching a checkpoint. This will recover over time as the particle emitters despawn.
 
 # Acknowledgements
 - p5.js library from [p5.js](https://p5js.org/)
