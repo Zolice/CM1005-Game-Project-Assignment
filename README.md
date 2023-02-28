@@ -19,7 +19,9 @@ To enable the display of anchor points, set the `debug_anchor` constant to `true
 
 To display the frame rate counter on the top left corner of the screen, set the `debug_ui` constant to `true` in the `sketch.js` file. This is set to `true` by default.
 
-To customize the Frame Rate, set the `applyFrameRate` constant to the desired value in the `sketch.js` file. This is set to `true` by default.
+To customize the Frame Rate, set the `applyFrameRate` constant to the desired value in the `sketch.js` file. This is set to `60` by default.
+
+To customize the Chunk Count, set the `chunkCount` constant to the desired value in the `sketch.js` file. This is set to `10` by default. Note that the higher the value, lower end hardware might experience some FPS reduction.
 
 # Built Using
 <a href="https://p5js.org/"><img src="https://img.shields.io/badge/p5.js-ED225D?style=for-the-badge&logo=p5.js&logoColor=FFFFFF"></a>

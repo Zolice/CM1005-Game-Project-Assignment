@@ -16,7 +16,7 @@ class Scene {
         translation = 0
 
         this.chunkSize = 1000
-        this.chunkCount = 10
+        this.chunkCount = chunkCount
         this.checkpointGap = 2
     }
 

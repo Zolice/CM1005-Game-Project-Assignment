@@ -1,6 +1,17 @@
-const debug_anchor = true // Toggle for anchor points
-const debug_ui = true // Displays FPS Counter
-const applyFrameRate = 60 // Set FPS
+// Configurable Constants
+// debug_anchor adds a red dot/anchor point to the origin x,y of each object
+const debug_anchor = true
+
+// debug_ui adds a FPS counter to the top left of the screen
+const debug_ui = true
+
+// applyFrameRate sets the frame rate of the game. 
+// The FPS cap doesn't seem to apply on certain platforms. Not enough equipment to investigate further.
+const applyFrameRate = 60
+
+// chunkCount sets the number of chunks that will be generated. Half will be generated on the left, half on the right.
+// recommended value: 10
+const chunkCount = 10
 
 var floorY
 var translation
