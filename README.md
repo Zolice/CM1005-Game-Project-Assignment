@@ -24,7 +24,7 @@ To customize the Frame Rate, set the `applyFrameRate` constant to the desired va
 # Built Using
 <a href="https://p5js.org/"><img src="https://img.shields.io/badge/p5.js-ED225D?style=for-the-badge&logo=p5.js&logoColor=FFFFFF"></a>
 ![javascript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=000000)
-<a href="https://mixkit.co/"><img src="https://img.shields.io/badge/Mixkit-FFFFFF?style=for-the-badge&logo=mixkit&logoColor=EEEEEE"></a>
+<a href="https://mixkit.co/"><img src="https://img.shields.io/badge/Mixkit-000000?style=for-the-badge&logo=mixkit&logoColor=FFFFFF"></a>
 
 # Features
 - [x] Player Movement

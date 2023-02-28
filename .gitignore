@@ -2,3 +2,5 @@
 modules/*.zip
 *test*
 *.psd
+
+*.zip
