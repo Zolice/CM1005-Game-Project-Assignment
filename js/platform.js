@@ -4,21 +4,9 @@ class Platform {
         this.y = y
         this.width = width
         this.height = 20
-        // this.color = random(this.color)
         this.color = color(255, 255, 255)
         this.stroke = color(0, 0, 0)
     }
-
-    color = [
-        color(41, 182, 246),
-        color(3, 169, 244),
-        color(3, 155, 229),
-        color(2, 136, 209),
-        color(66, 165, 245),
-        color(33, 150, 243),
-        color(30, 136, 229),
-        color(25, 118, 210)
-    ]
 
     static checkCollision(x, y, width) {
         // Get an array of all the platforms the player is above
@@ -36,7 +24,6 @@ class Platform {
                 finalHeight = height
             }
         })
-
         return finalHeight
     }
 

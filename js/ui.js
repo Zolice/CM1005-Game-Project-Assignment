@@ -95,7 +95,7 @@ class Ui {
     }
 
     setFrameRate(fps) {
-        console.log("Attempting to set frame rate to " + fps)
-        frameRate(fps)
+        console.log("Attempting to set frame rate to " + fps) 
+        frameRate(fps) // The FPS cap doesn't seem to apply on certain platforms. Not enough equipment to investigate further.
     }
 }

@@ -19,7 +19,6 @@ class Sound {
 
     soundLoaded() {
         this.loadedCount++
-        console.log(`Sound loading ${Math.ceil(this.loadedCount / this.length * 100)}% : ` + this.loadedCount + ' / ' + this.length)
         if (this.loadedCount >= this.length) {
             this.loaded = true
         }
@@ -35,10 +34,10 @@ class Sound {
     }
 
     playSound(name) {
-        this.sound[name].play()
+        if (this.sound[name]) this.sound[name].play()
     }
 
     stopSound(name) {
-        this.sound[name].stop()
+        if (this.sound[name]) this.sound[name].stop()
     }
 }

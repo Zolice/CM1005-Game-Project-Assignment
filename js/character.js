@@ -6,16 +6,17 @@ class Character {
 		this.displayX = x
 		this.height = charWidth * 1.3
 		this.width = charWidth
+
 		this.direction = "front"
 		this.plummeting = false
 		this.jumping = false
 		this.alive = true
 		this.movement = createVector(0, 0)
+		this.gravity = createVector(0, 1)
 		this.score = 0
 		this.lives = 3
 		this.lastCheckpoint = x
 		this.gameWon = false
-
 		this.startX = x
 		this.distance = 0
 
@@ -32,8 +33,6 @@ class Character {
 
 	}
 
-	gravity = createVector(0, 1)
-
 	static setup() {
 		return new Character(0, floorY, 60)
 	}
@@ -44,7 +43,7 @@ class Character {
 	}
 
 	move() {
-		if(this.gameWon) return
+		if (this.gameWon) return
 		if (this.plummeting) {
 			this.movement.add(this.gravity)
 			this.pos.add(this.movement)
@@ -77,7 +76,7 @@ class Character {
 	}
 
 	setPlummeting(plummeting = true) {
-		if(this.plummeting) return
+		if (this.plummeting) return
 		this.plummeting = plummeting
 		sound.playSound("plummeting")
 	}
@@ -127,7 +126,7 @@ class Character {
 	}
 
 	keyPressed(keyCode) {
-		if(this.gameWon) return
+		if (this.gameWon) return
 		if ((keyCode == 32 || keyCode == 38)) {
 			this.jump()
 		}
@@ -140,9 +139,9 @@ class Character {
 	}
 
 	keyReleased(keyCode) {
-		if(this.gameWon) return
+		if (this.gameWon) return
 		if (keyCode == 37) {
-			if (keyIsDown(39)) {
+			if (keyIsDown(39)) { // Check if Right Arrow is pressed
 				player.direction = "right"
 			}
 			else {
@@ -150,7 +149,7 @@ class Character {
 			}
 		}
 		if (keyCode == 39) {
-			if (keyIsDown(37)) {
+			if (keyIsDown(37)) { // Check if Left Arrow is pressed
 				player.direction = "left"
 			}
 			else {
@@ -254,7 +253,6 @@ class Character {
 			}
 			var socketY = this.pos.y - this.height + (this.width / 2)
 			strokeWeight(1)
-			// stroke(characterColorScheme.body[0], characterColorScheme.body[1], characterColorScheme.body[2])
 			noStroke()
 			fill(this.color.eyeSocket)
 			ellipse(socketX, socketY, this.width / 3, this.width / 2)

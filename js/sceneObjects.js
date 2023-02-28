@@ -204,7 +204,7 @@ class Canyon {
         scene.canyons.forEach((canyon) => {
             // If canyon is too close to the other canyon, move it to the right
             if (x + canyonWidth / 2 >= canyon.x - canyon.width / 2 && x - canyonWidth / 2 <= canyon.x + canyon.width / 2) {
-                x = canyon.x + canyon.width + canyonWidth
+                x = canyon.x + canyon.width / 2 + canyonWidth / 2 + 30
             }
         })
         return new Canyon(x, y, canyonWidth, canyonHeight)
@@ -247,17 +247,16 @@ class Checkpoint {
         this.flagY = y
         this.lastFlag = lastFlag
         this.startingCheckpoint = startingCheckpoint
+
         this.width = height * 0.2
         this.height = height * 0.45
         this.flagHeight = this.height * 0.3
-
-        this.color = lastFlag ? color(253, 216, 53) : color(229, 57, 53) // Yellow : Red
-        this.color = startingCheckpoint ? color(255,255,255) : this.color // Green : Red/Yellow
-
         this.reached = startingCheckpoint
         this.poleWidth = 5
         this.particleEmitter = []
         this.clusterSummoned = startingCheckpoint
+        this.color = lastFlag ? color(253, 216, 53) : color(229, 57, 53) // Yellow : Red
+        this.color = startingCheckpoint ? color(255, 255, 255) : this.color
     }
 
     poleColor = color(189, 189, 189)

@@ -11,17 +11,16 @@ class ParticleEmitter {
         randomColour = false,
         colour = [color(0, 0, 0)]
     ) {
-
         this.pos = createVector(x, y)
         this.type = type
         this.size = size
         this.count = count
-        this.colour = colour
         this.particleAge = age
-        this.randomColour = randomColour
         this.remainder = count
         this.spawnPerCycle = spawnPerCycle
         this.spawnDelay = spawnDelay
+        this.randomColour = randomColour
+        this.colour = colour
 
         this.age = 0
         this.particles = []
@@ -66,7 +65,7 @@ class ParticleEmitter {
             particle.draw()
         })
 
-        if(debug_anchor) {
+        if (debug_anchor) {
             noStroke()
             fill(255, 0, 0)
             ellipse(this.pos.x, this.pos.y, 5, 5)

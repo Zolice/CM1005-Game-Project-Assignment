@@ -20,13 +20,10 @@ function setup() {
 		ui.drawLoading()
 	}
 
-	console.log("Starting setup...")
 	createCanvas(windowWidth, windowHeight - 32)
-
 	scene = new Scene()
 	scene.setup()
 	player = Character.setup()
-	console.log("Setup complete")
 }
 
 function resetGame() {

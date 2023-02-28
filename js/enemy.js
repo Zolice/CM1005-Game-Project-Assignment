@@ -10,15 +10,14 @@ class Enemy {
         this.x = x
         this.y = y
         this.size = size
-        this.distance = distance
+        this.startX = x - distance / 2
+        this.endX = x + distance / 2
         this.speed = speed
         if (color) this.color = color
 
-        this.startX = x - distance / 2
-        this.endX = x + distance / 2
     }
 
-    color = color(255, 0, 0)
+    color = color(255, 0, 0) // Default colour
 
     draw() {
         fill(this.color)
@@ -36,7 +35,6 @@ class Enemy {
         if (this.x >= this.endX || this.x <= this.startX) {
             this.speed = -this.speed
         }
-
         this.x += this.speed
     }
 

@@ -52,7 +52,6 @@ class Scene {
             this.mountains.push(new Mountain(mountainX, y))
         }
 
-        // let canyonCount = random(Math.floor(chunkSize / 750), Math.floor(chunkSize / 500))
         let canyonCount = 2
         if (random(0, 1) >= 0.5) { // 50% chance to generate an enemy
             this.enemies.push(new Enemy(random(startX + chunkSize * 0.3, startX + chunkSize * 0.7), y - 40, 30, 300))
@@ -134,7 +133,7 @@ class Scene {
         })
         if (this.enemies) this.enemies.forEach(enemy => {
             enemy.move()
-            if (enemy.checkCollision(player.pos.x, player.pos.y, player.width, player.height)) console.log("collision")
+            enemy.checkCollision(player.pos.x, player.pos.y, player.width, player.height)
         })
 
     }
@@ -149,21 +148,13 @@ class Scene {
         translate(translation, 0)
 
         this.mountains.forEach(mountain => mountain.draw())
-
         this.trees.forEach(tree => tree.draw())
-
         this.canyons.forEach(canyon => canyon.draw())
-
         this.checkpoints.forEach(checkpoint => checkpoint.draw())
-
         this.collectables.forEach(collectable => collectable.draw())
-
         this.clouds.forEach(cloud => cloud.draw())
-
         this.checkpoints.forEach(checkpoint => checkpoint.drawFireworks())
-
         this.platforms.forEach(platform => platform.draw())
-
         this.enemies.forEach(enemy => enemy.draw())
 
         pop()
